@@ -1,0 +1,2 @@
+for(std::vector<int>::iterator it=tablica.begin();it!=tablica.end(;++it))
+cout<<*it;
