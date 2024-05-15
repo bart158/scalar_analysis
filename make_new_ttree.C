@@ -29,9 +29,9 @@ R__LOAD_LIBRARY(delphes/libDelphes)
 //class ExRootResult;
 //#endif
 
-void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
-		const char *outFile="mytree/qqll_bg_eRpL_new.root",
-		string plname="mytree/qqll_bg_eRpL_new",
+void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
+		const char *outFile="mytree/bbll_sig_80_eRpL_new.root",
+		string plname="mytree/bbll_sig_80_eRpL_new",
 		int Iproc=0, int Ipol=-1, double Ms=95., double Cs=359.465771, double w=0.032352,
 	       int imask = 15, int emask = 7, int mmask = 7 , int tmask=7, int amask = 7,
 	       int bmask = 7, int nbin=100, double mmax=200., int Bbit = 2){
@@ -52,7 +52,7 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
         Int_t Ipol;
         Float_t Ms;
         Float_t Cs;
-        Float_t Lgen;
+        Float_t w;
     };
     
     event_head myheader;
@@ -62,28 +62,23 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
     struct event_reco{
         Int_t Nel;
         Int_t Nmu;
-        Int_t Nta;
         Int_t Nisr;
         Int_t Nph;
         Int_t jet1btag;
         Int_t jet2btag;
         Float_t Mjj;
-        Float_t Mtt;
         Float_t Mcorr;
         Float_t Mrec;
         Float_t Etot;
         Float_t y23;
         Float_t y34;
         Float_t y45;
-        Float_t reconhm;
         Float_t costhetajetcms;
         Float_t jetpt;
     };
 
     event_reco myevent;
-    newtree->Branch("event",&myevent,"Nel/I:Nmu/I:Nta/I:Nisr/I:Nph/I:jet1btag/I:jet2btag/I:Mjj/F:Mtt/F:Mcorr/F:Mrec/F:Etot/F:y23/F:y34/F:y45/F:reconhm/F:costhetajetcms/F:jetpt/F" );
-    Double_t jetpt_branch;
-    newtree->Branch("jetpt_branch", "Double_t", &jetpt_branch);
+    newtree->Branch("event",&myevent,"Nel/I:Nmu/I:Nisr/I:Nph/I:jet1btag/I:jet2btag/I:Mjj/F:Mcorr/F:Mrec/F:Etot/F:y23/F:y34/F:y45/F:costhetajetcms/F:jetpt/F" );
     TLorentzVector h1p4;
     newtree->Branch("H", "TLorentzVector", &h1p4);
     TLorentzVector zp4;
@@ -95,6 +90,12 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
     newtree->Branch("LEP2","TLorentzVector",myrec+1);
     newtree->Branch("J1","TLorentzVector",myrec+2);
     newtree->Branch("J2","TLorentzVector",myrec+3);
+    TLorentzVector p4isr;
+    newtree->Branch("ISR","TLorentzVector",&p4isr);
+
+    TLorentzVector p4ph;
+    newtree->Branch("Ph","TLorentzVector",&p4ph);
+
     TLorentzVector recoilhp4;
     newtree->Branch("recoilHP4", "TLorentzVector", &recoilhp4);
 
@@ -160,6 +161,7 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
 
     int nEvt = 0;
     for(Int_t entry = 0; entry < genEntries; ++entry){
+        myheader.w = 1;
         genReader->ReadEntry(entry);
         //std::cout << "testtttt\n";
 
@@ -175,6 +177,39 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
 
         int Qtot = 0;
 
+        // Photons
+
+        int nIsr = 0;
+        int nPh = 0;
+        
+        p4isr.SetPxPyPzE(0.,0.,0.,0.);
+        p4ph.SetPxPyPzE(0.,0.,0.,0.);
+
+        // Loop over photons in BCAL
+        
+        for(int iPh=0; iPh<nBcal; iPh++){
+            photon = (Photon*) branchBCal->At(iPh);
+            // All BCAL photons are considered ISR photons
+            nIsr++;
+            p4isr+=photon->P4();
+        }
+        // Loop over photons in calorimeter    
+        for(int iPh=0; iPh<nPhoton; iPh++){
+            photon = (Photon*) branchPhoton->At(iPh);
+
+            // ISR photon candidate selection
+            
+            if(abs(photon->Eta) > 2. && photon->E > 10.){
+                nIsr++;
+                p4isr+=photon->P4();
+            }
+            else{
+                nPh++;
+                p4ph+= photon->P4();
+            }
+        }
+        if ( ( 1<<nIsr & imask)  == 0) continue;
+        //Zapytać o selekcję isr
         for(int iEle = 0; iEle<nElectron; iEle++){
             electron = (Electron*) branchElectron->At(iEle);
 
@@ -322,15 +357,23 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
             myrec[nEle+nMu+ijet] = myjet[ijet];
         }
 
+        myevent.Nisr = nIsr;
+        myevent.Nph = nPh;
         myevent.jet1btag = (mybtag[0] & Bbit)/Bbit;
         myevent.jet2btag = (mybtag[1] & Bbit)/Bbit;
+        
         zp4 = myrec[0] + myrec[1];
         h1p4 = myrec[2] + myrec[3];
 
+        myevent.Mjj = h1p4.M();
+
         hzp4 = h1p4 + zp4;
+        myevent.Etot = hzp4.E();
+
         TLorentzVector temprecoilhp4(0, 0, 0, 250);
         temprecoilhp4 = temprecoilhp4 - zp4;
         recoilhp4 = temprecoilhp4;
+        myevent.Mrec = recoilhp4.M();
 
         Double_t sqrt_s = 250;
         Double_t alpha = 0;
@@ -362,9 +405,12 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
 
         E1 = TMath::Sqrt(p1*p1 + m1*m1);
         E2 = TMath::Sqrt(p2*p2 + m2*m2);
-
-        myevent.reconhm = TMath::Sqrt((1+p2/p1)*m1*m1+(1+p1/p2)*m2*m2+2*pt*pt*TMath::Sin(phi-phi2)*TMath::Sin(phi1-phi)*(1-TMath::Sin(theta1)*TMath::Sin(theta2)*TMath::Cos(phi12)-TMath::Cos(theta1)*TMath::Cos(theta2))/(TMath::Sin(theta1)*TMath::Sin(theta2)*TMath::Sin(phi12)*TMath::Sin(phi12)));
-        
+        if (TMath::Abs(phi12) > 3) continue;
+        myevent.Mcorr = TMath::Sqrt((1+p2/p1)*m1*m1+(1+p1/p2)*m2*m2+2*pt*pt*TMath::Sin(phi-phi2)*TMath::Sin(phi1-phi)*(1-TMath::Sin(theta1)*TMath::Sin(theta2)*TMath::Cos(phi12)-TMath::Cos(theta1)*TMath::Cos(theta2))/(TMath::Sin(theta1)*TMath::Sin(theta2)*TMath::Sin(phi12)*TMath::Sin(phi12)));
+        if(myevent.Mcorr != myevent.Mcorr) continue;
+        if(myevent.Mcorr > 300){
+            std::cout << "phi1: " << phi1 << " phi2: " << phi12 << " mcorr: " << myevent.Mcorr << "\n";
+        }
         TVector3* SCM_boostvec = new TVector3(-h1p4.Px()/h1p4.E(), -h1p4.Py()/h1p4.E(), -h1p4.Pz()/h1p4.E());
         TLorentzVector jet1P4_SCM= myrec[2];
         TLorentzVector jet2P4_SCM= myrec[3];
@@ -372,8 +418,8 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
         jet2P4_SCM.Boost(*SCM_boostvec);
         myevent.costhetajetcms = jet1P4_SCM.CosTheta();
         myevent.jetpt = myrec[2].Pt();
-        jetpt_branch = myrec[2].Pt();
-        if(entry%500 == 0) std::cout << myrec[2].Pt() << " ";
+        //jetpt_branch = myrec[2].Pt();
+        //if(entry%500 == 0) std::cout << myrec[2].Pt() << " ";
         newtree->Fill();
 
     }

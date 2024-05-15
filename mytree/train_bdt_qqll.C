@@ -32,7 +32,7 @@ using namespace std;
 string treename = "tree";         // tree name (should be the same in all input files)
 
 
-            void train_bdt_qqll(string variables = "jet1btag jet2btag jetpt costhetajetcms", // input BDT variable names
+            void train_bdt_qqll(string variables = "Nel Nmu Nisr Nph jet1btag jet2btag Mjj Mcorr Mrec Etot y23 y34 y45 costhetajetcms jetpt", // input BDT variable names
 			   string spectator = "H", // spectator variable names (for output tree)
 			   double nsgen= 100.0,     // expected signal events
 			   double nbgen=1000.0,     // expected background events
