@@ -4,7 +4,7 @@
 void train_bdt_qqll_var()
 {
 //=========Macro generated from canvas: canvas1/TMVA Input Variables
-//=========  (Wed May 15 15:49:13 2024) by ROOT version 6.30/06
+//=========  (Thu May 16 11:27:38 2024) by ROOT version 6.30/06
    TCanvas *canvas1 = new TCanvas("canvas1", "TMVA Input Variables",100,81,800,440);
    gStyle->SetOptStat(0);
    canvas1->Range(0,0,1,1);

@@ -29,10 +29,10 @@ R__LOAD_LIBRARY(delphes/libDelphes)
 //class ExRootResult;
 //#endif
 
-void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
-		const char *outFile="mytree/bbll_sig_80_eRpL_new.root",
-		string plname="mytree/bbll_sig_80_eRpL_new",
-		int Iproc=0, int Ipol=-1, double Ms=95., double Cs=359.465771, double w=0.032352,
+void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
+		const char *outFile="mytree/qqll_bg_eRpL_new.root",
+		string plname="mytree/qqll_bg_eRpL_new",
+		int Iproc=0, int Ipol=1, double Ms=95., double Cs=359.465771, double w=0.032352,
 	       int imask = 15, int emask = 7, int mmask = 7 , int tmask=7, int amask = 7,
 	       int bmask = 7, int nbin=100, double mmax=200., int Bbit = 2){
 
@@ -52,7 +52,7 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
         Int_t Ipol;
         Float_t Ms;
         Float_t Cs;
-        Float_t w;
+        Float_t w; // Lgen
     };
     
     event_head myheader;
@@ -161,6 +161,8 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
 
     int nEvt = 0;
     for(Int_t entry = 0; entry < genEntries; ++entry){
+        // eLpR = 0; eRpL = 1; eLpL = 2; eRpR = 3
+        myheader.Ipol = Ipol;
         myheader.w = 1;
         genReader->ReadEntry(entry);
         //std::cout << "testtttt\n";
@@ -368,7 +370,7 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
         myevent.Mjj = h1p4.M();
 
         hzp4 = h1p4 + zp4;
-        myevent.Etot = hzp4.E();
+        
 
         TLorentzVector temprecoilhp4(0, 0, 0, 250);
         temprecoilhp4 = temprecoilhp4 - zp4;
@@ -407,6 +409,7 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
         E2 = TMath::Sqrt(p2*p2 + m2*m2);
         if (TMath::Abs(phi12) > 3) continue;
         myevent.Mcorr = TMath::Sqrt((1+p2/p1)*m1*m1+(1+p1/p2)*m2*m2+2*pt*pt*TMath::Sin(phi-phi2)*TMath::Sin(phi1-phi)*(1-TMath::Sin(theta1)*TMath::Sin(theta2)*TMath::Cos(phi12)-TMath::Cos(theta1)*TMath::Cos(theta2))/(TMath::Sin(theta1)*TMath::Sin(theta2)*TMath::Sin(phi12)*TMath::Sin(phi12)));
+        myevent.Etot = zp4.E() + E1 + E2;
         if(myevent.Mcorr != myevent.Mcorr) continue;
         if(myevent.Mcorr > 300){
             std::cout << "phi1: " << phi1 << " phi2: " << phi12 << " mcorr: " << myevent.Mcorr << "\n";

@@ -32,7 +32,7 @@ using namespace std;
 string treename = "tree";         // tree name (should be the same in all input files)
 
 
-            void train_bdt_qqll(string variables = "Nel Nmu Nisr Nph jet1btag jet2btag Mjj Mcorr Mrec Etot y23 y34 y45 costhetajetcms jetpt", // input BDT variable names
+            void train_bdt_qqll(string variables = "Nel Nmu Nisr Nph jet1btag jet2btag Mjj Mcorr Mrec Etot log10(y23) log10(y34) log10(y45) costhetajetcms jetpt  Z.M() Z.Pt() Z.E()", // input BDT variable names
 			   string spectator = "H", // spectator variable names (for output tree)
 			   double nsgen= 100.0,     // expected signal events
 			   double nbgen=1000.0,     // expected background events
@@ -157,6 +157,11 @@ string treename = "tree";         // tree name (should be the same in all input 
 
    Double_t signalWeight     = 1.0;
    Double_t backgroundWeight = 1.0;
+   Double_t weights[4][4] = {
+    {0.585, 0.035, 0.315, 0.065},
+    {0.035, 0.585, 0.065, 0.315},
+    {0.315, 0.065, 0.585, 0.035},
+    {0.065, 0.315, 0.035, 0.585}};
    
    // Define signal and background trees
 
@@ -169,7 +174,11 @@ string treename = "tree";         // tree name (should be the same in all input 
           }
 
    TTree *sigev = (TTree *)(sigfile->FindObjectAny(treename.c_str()));
-
+   Int_t Ipol;
+   sigev->SetBranchAddress("Ipol", &Ipol);
+   sigev->GetEntry(0);
+   signalWeight = weights[1][Ipol];
+   backgroundWeight = weights[1][Ipol];
    dataloader->AddSignalTree( sigev,  signalWeight,   TMVA::Types::kMaxTreeType );
 
 
