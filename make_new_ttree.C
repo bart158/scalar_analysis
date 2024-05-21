@@ -28,6 +28,42 @@ R__LOAD_LIBRARY(delphes/libDelphes)
 //class ExRootTreeReader;
 //class ExRootResult;
 //#endif
+/*
+# Proc     eLpL        eRpR        eLpR        eRpL     
+  qqqq       -           -         69.9234     103.269  
+  qqtt       -           -         337.801     632.644  
+  qqll     383.667     384.444     97.2588     155.698  
+  qqvv       -           -          93.925     254.328  
+  qqlv     849.756     849.384     102.891     576.273  
+  qqtv       -           -          106.57      1154.4  
+  ttll     688.559     688.318     487.072     556.402  
+  tttt       -           -         8356.19     13483.2  
+    qq       -           -         15.7433     14.4222  
+*/
+
+
+/*
+# Mass  bbvv_eLpR   bbvv_eRpL   bbll_eLpR   bbll_eRpL   bbqq_eLpR   bbqq_eRpL  
+    30     297.75      464.54      590.02      920.67      87.295      136.41  
+    50     359.83      561.27      713.05      1113.3      105.72      165.04  
+    80      479.5       747.5       951.7      1484.5       140.8      220.04  
+    95     576.05      900.74      1143.2      1781.2      169.27      264.54  
+   110      726.4      1132.7      1440.8      2247.2      213.29      333.71  
+*/
+// eLpR = 0; eRpL = 1; eLpL = 2; eRpR = 3
+// qqqq = 0; qqtt = 1; qqll = 2; qqvv = 3; qqlv = 4; qqtv = 5; ttll = 6; tttt = 7; qq = 8
+Double_t Lgen_bg_arr[4][9] = {
+    {69.9234, 337.801, 97.2588, 93.925, 102.891, 106.57, 487.072, 8356.19, 15.7433},
+    {103.269, 632.644, 155.698, 254.328, 576.273, 1154.4, 556.402, 13483.2, 14.4222},
+    {0, 0, 383.667, 0, 849.756, 0, 688.559, 0, 0},
+    {0, 0, 384.444, 0, 849.384, 0, 688.318, 0, 0}
+}
+// eLpR = 0; eRpL = 1; eLpL = 2; eRpR = 3
+// 30 = 0; 50 = 1, 80 = 2, 95 = 3, 110 = 4
+Double_t Lgen_sig_bbll_arr[2][5] = {
+    {590.02, 713.05, 951.7, 1143.2, 1440.8},
+    {920.67, 1113.3, 1484.5, 1781.2, 2247.2}
+}
 
 void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
 		const char *outFile="mytree/qqll_bg_eRpL_new.root",
@@ -35,6 +71,8 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
 		int Iproc=0, int Ipol=1, double Ms=95., double Cs=359.465771, double w=0.032352,
 	       int imask = 15, int emask = 7, int mmask = 7 , int tmask=7, int amask = 7,
 	       int bmask = 7, int nbin=100, double mmax=200., int Bbit = 2){
+
+
 
     TFile *fout = new TFile(outFile, "RECREATE");
 

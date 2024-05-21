@@ -6,6 +6,7 @@
  *                                                                                *
  **********************************************************************************/
 
+#include <RtypesCore.h>
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -162,6 +163,19 @@ string treename = "tree";         // tree name (should be the same in all input 
     {0.035, 0.585, 0.065, 0.315},
     {0.315, 0.065, 0.585, 0.035},
     {0.065, 0.315, 0.035, 0.585}};
+
+    Double_t Lexp[4][4];
+
+    for(int i = 0; i < 4; i++){
+      for(int j = 0; j < 4; j++){
+        if(i < 2){
+          Lexp[i][j] = 900 * weights[i][j];
+        }
+        else{
+          Lexp[i][j] = 100 * weights[i][j];
+        }
+      }
+    }
    
    // Define signal and background trees
 
