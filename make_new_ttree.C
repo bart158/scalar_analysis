@@ -57,18 +57,18 @@ Double_t Lgen_bg_arr[4][9] = {
     {103.269, 632.644, 155.698, 254.328, 576.273, 1154.4, 556.402, 13483.2, 14.4222},
     {0, 0, 383.667, 0, 849.756, 0, 688.559, 0, 0},
     {0, 0, 384.444, 0, 849.384, 0, 688.318, 0, 0}
-}
+};
 // eLpR = 0; eRpL = 1; eLpL = 2; eRpR = 3
 // 30 = 0; 50 = 1, 80 = 2, 95 = 3, 110 = 4
 Double_t Lgen_sig_bbll_arr[2][5] = {
     {590.02, 713.05, 951.7, 1143.2, 1440.8},
     {920.67, 1113.3, 1484.5, 1781.2, 2247.2}
-}
+};
 
-void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
-		const char *outFile="mytree/qqll_bg_eRpL_new.root",
-		string plname="mytree/qqll_bg_eRpL_new",
-		int Iproc=0, int Ipol=1, double Ms=95., double Cs=359.465771, double w=0.032352,
+void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
+		const char *outFile="trees_for_training/bbll_sig_80_eRpL_new.root",
+		string plname="trees_for_training/bbll_sig_80_eRpL_new",
+		int Iproc=-1, int Ipol=1, double Lgen = Lgen_sig_bbll_arr[1][2], double Ms=95., double Cs=359.465771, double w=0.032352,
 	       int imask = 15, int emask = 7, int mmask = 7 , int tmask=7, int amask = 7,
 	       int bmask = 7, int nbin=100, double mmax=200., int Bbit = 2){
 
@@ -90,12 +90,12 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
         Int_t Ipol;
         Float_t Ms;
         Float_t Cs;
-        Float_t w; // Lgen
+        Float_t Lgen; // Lgen
     };
     
     event_head myheader;
 
-    newtree->Branch("header",&myheader,"Ievt/I:Iproc/I:Ipol/I:Ms/F:Cs/F:w/F");
+    newtree->Branch("header",&myheader,"Ievt/I:Iproc/I:Ipol/I:Ms/F:Cs/F:Lgen/F");
 
     struct event_reco{
         Int_t Nel;
@@ -201,7 +201,8 @@ void make_new_ttree(const char *genFile="qqll_bg_eRpL.root",
     for(Int_t entry = 0; entry < genEntries; ++entry){
         // eLpR = 0; eRpL = 1; eLpL = 2; eRpR = 3
         myheader.Ipol = Ipol;
-        myheader.w = 1;
+        myheader.Lgen = Lgen;
+        myheader.Iproc = Iproc;
         genReader->ReadEntry(entry);
         //std::cout << "testtttt\n";
 
