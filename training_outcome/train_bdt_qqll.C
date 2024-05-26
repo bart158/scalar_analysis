@@ -34,7 +34,7 @@ string treename = "tree";         // tree name (should be the same in all input 
 
 
             void train_bdt_qqll(string variables = "Nel Nmu Nisr Nph jet1btag jet2btag Mjj Mcorr Mrec Etot log10(y23) log10(y34) log10(y45) costhetajetcms jetpt  Z.M() Z.Pt() Z.E()", // input BDT variable names
-			   string spectator = "Iproc Ipol", // spectator variable names (for output tree)
+			   string spectator = "Iproc Ipol Lgen", // spectator variable names (for output tree)
 			   double nsgen= 100.0,     // expected signal events
 			   double nbgen=1000.0,     // expected background events
 			   string weight =  "w",     // event weigth formula

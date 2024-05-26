@@ -10,6 +10,7 @@
 #include "TH2D.h"
 #include "TClonesArray.h"
 
+#include <RtypesCore.h>
 #include <iostream>
 #include <fstream>    
 #include <iomanip>   
@@ -68,7 +69,7 @@ Double_t Lgen_sig_bbll_arr[2][5] = {
 void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
 		const char *outFile="trees_for_training/bbll_sig_80_eRpL_new.root",
 		string plname="trees_for_training/bbll_sig_80_eRpL_new",
-		int Iproc=-1, int Ipol=1, double Lgen = Lgen_sig_bbll_arr[1][2], double Ms=95., double Cs=359.465771, double w=0.032352,
+		int Iproc=-1, int Ipol=1, double Ms=95., double Cs=359.465771, double w=0.032352,
 	       int imask = 15, int emask = 7, int mmask = 7 , int tmask=7, int amask = 7,
 	       int bmask = 7, int nbin=100, double mmax=200., int Bbit = 2){
 
@@ -200,10 +201,16 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
     TClonesArray *branchPhoton = genReader->UseBranch("Photon");
     TClonesArray *branchBCal = genReader->UseBranch("BCalPhoton");
     Photon *photon;
-
+    Double_t Lgen;
     int nEvt = 0;
     for(Int_t entry = 0; entry < genEntries; ++entry){
         // eLpR = 0; eRpL = 1; eLpL = 2; eRpR = 3
+        if(Iproc > -1){
+            Lgen = Lgen_bg_arr[Ipol][Iproc];
+        }
+        else{
+            Lgen = Lgen_sig_bbll_arr[Iproc][2];
+        }
         myheader.Ipol = Ipol;
         myheader.Lgen = Lgen;
         myheader.Iproc = Iproc;
