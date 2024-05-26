@@ -136,6 +136,10 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
 
     TLorentzVector recoilhp4;
     newtree->Branch("recoilHP4", "TLorentzVector", &recoilhp4);
+    TLorentzVector hp4corr;
+    newtree->Branch("Hcorr", "TLorentzVector", &hp4corr);
+    TLorentzVector hzp4corr;
+    newtree->Branch("HZcorr", "TLorentzVector", &hzp4corr);
 
     CLICdpStyle();
   
@@ -294,10 +298,10 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
         // At most two leptons allowed
 
         if ( nEle + nMu > 2 ) continue;
-
+        
         //Only pairs of leptons allowed
         if ( nEle != 2 && nMu != 2) continue;
-
+        
         // Oposit sign required for two leptons (not relevant in Delphes)
         
         if ( nEle + nMu == 2 && Qtot != 0) continue;
@@ -307,7 +311,7 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
         int nJet = 4 - nMu - nEle;
 
         if (nJet < 2) continue;
-
+        
         if (nJet == 2) branchJet = branchJet2;
         if (nJet == 3) branchJet = branchJet3;
         if (nJet == 4) branchJet = branchJet4;
@@ -390,14 +394,18 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
         }
         else{
             for(int iMu = 0; iMu < nMu; iMu++){
-                myrec[iMu] = myelectron[iMu];
+                myrec[iMu] = mymuon[iMu];
             }
-            if(myrec[0].E()+myrec[1].E() < 100)continue;
+            
+            if(myrec[0].E()+myrec[1].E() < 30){
+                std::cout << "r";
+                continue;
+            }
         }
         for(int ijet = 0; ijet<nJet; ijet++){
             myrec[nEle+nMu+ijet] = myjet[ijet];
         }
-
+        
         myevent.Nisr = nIsr;
         myevent.Nph = nPh;
         myevent.jet1btag = (mybtag[0] & Bbit)/Bbit;
@@ -446,22 +454,36 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
 
         E1 = TMath::Sqrt(p1*p1 + m1*m1);
         E2 = TMath::Sqrt(p2*p2 + m2*m2);
+
+        Double_t jet1pmag = myrec[2].P();
+        Double_t jet2pmag = myrec[3].P();
+
+        myrec[2] = TLorentzVector(myrec[2].X() * p1 / jet1pmag, myrec[2].Y() * p1 / jet1pmag, myrec[2].Z() * p1 / jet1pmag, E1);
+        myrec[3] = TLorentzVector(myrec[3].X() * p2 / jet2pmag, myrec[3].Y() * p2 / jet2pmag, myrec[3].Z() * p2 / jet2pmag, E2);
+        hp4corr = myrec[2] + myrec[3];
+        hzp4corr = zp4 + hp4corr;
         if (TMath::Abs(phi12) > 3) continue;
+        
         myevent.Mcorr = TMath::Sqrt((1+p2/p1)*m1*m1+(1+p1/p2)*m2*m2+2*pt*pt*TMath::Sin(phi-phi2)*TMath::Sin(phi1-phi)*(1-TMath::Sin(theta1)*TMath::Sin(theta2)*TMath::Cos(phi12)-TMath::Cos(theta1)*TMath::Cos(theta2))/(TMath::Sin(theta1)*TMath::Sin(theta2)*TMath::Sin(phi12)*TMath::Sin(phi12)));
         myevent.Etot = zp4.E() + E1 + E2;
+        if(myevent.Etot > 500) continue;
         if(myevent.Mcorr != myevent.Mcorr) continue;
+        std::cout << myevent.Nmu;
         if(myevent.Mcorr > 300){
             std::cout << "phi1: " << phi1 << " phi2: " << phi12 << " mcorr: " << myevent.Mcorr << "\n";
         }
+        if(myevent.Mcorr < 0) continue;
         TVector3* SCM_boostvec = new TVector3(-h1p4.Px()/h1p4.E(), -h1p4.Py()/h1p4.E(), -h1p4.Pz()/h1p4.E());
         TLorentzVector jet1P4_SCM= myrec[2];
         TLorentzVector jet2P4_SCM= myrec[3];
         jet1P4_SCM.Boost(*SCM_boostvec);
         jet2P4_SCM.Boost(*SCM_boostvec);
         myevent.costhetajetcms = jet1P4_SCM.CosTheta();
+        if(myrec[2].Pt() > 250) continue;
         myevent.jetpt = myrec[2].Pt();
         //jetpt_branch = myrec[2].Pt();
         //if(entry%500 == 0) std::cout << myrec[2].Pt() << " ";
+        
         newtree->Fill();
 
     }
