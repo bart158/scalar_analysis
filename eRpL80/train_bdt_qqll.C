@@ -214,7 +214,7 @@ string treename = "tree";         // tree name (should be the same in all input 
    sigev2->GetEntry(0);
    Ipol = header.Ipol;
    Lgen = header.Lgen;
-   dataloader->AddSignalTree( sigev2,  Lexp[beamsetting][Ipol]/Lgen,   TMVA::Types::kMaxTreeType );
+   //dataloader->AddSignalTree( sigev2,  Lexp[beamsetting][Ipol]/Lgen,   TMVA::Types::kMaxTreeType );
 
   TFile* bg_files[24];
   TTree* bgevt[24];
@@ -227,7 +227,7 @@ string treename = "tree";         // tree name (should be the same in all input 
     "ttll_bg_eLpR_new.root", "tttt_bg_eLpR_new.root", "qqll_bg_eLpL_new.root", "qqlv_bg_eLpL_new.root", "ttll_bg_eLpL_new.root",
     "qqll_bg_eRpR_new.root", "qqlv_bg_eRpR_new.root", "ttll_bg_eRpR_new.root" };
 
-  for(int i = 0; i < 24; i++){
+  for(int i = 0; i < 8; i++){
     bg_files[i] = new TFile(path + bg_filenames[i]);
     if (!bg_files[i])
       {

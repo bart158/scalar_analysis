@@ -42,7 +42,7 @@ string treename = "tree";         // tree name (should be the same in all input 
 			   string Ntrees = "1000",  // number of trees
 			   string transf = "I",     // input variable transformation options
 			   string bdtpar = "UseNvars=6:PruneMethod=CostComplexity:PruneStrength=-1",
-         int beamsetting = 1) // BDT options
+         int beamsetting = 4) // BDT options
 {
    //---------------------------------------------------------------
    // This loads the library
@@ -158,21 +158,26 @@ string treename = "tree";         // tree name (should be the same in all input 
    // global event weights per tree (see below for setting event-wise weights)
 
 
-   Double_t weights[4][4] = {
+   Double_t weights[5][4] = {
     {0.585, 0.035, 0.315, 0.065},
     {0.035, 0.585, 0.065, 0.315},
     {0.315, 0.065, 0.585, 0.035},
-    {0.065, 0.315, 0.035, 0.585}};
+    {0.065, 0.315, 0.035, 0.585},
+    {0.25, 0.25, 0.25, 0.25}};
 
-    Double_t Lexp[4][4];
+    Double_t Lexp[5][4];
 
-    for(int i = 0; i < 4; i++){
+    for(int i = 0; i < 5; i++){
       for(int j = 0; j < 4; j++){
         if(i < 2){
           Lexp[i][j] = 900 * weights[i][j];
         }
-        else{
+        else if(i < 4){
           Lexp[i][j] = 100 * weights[i][j];
+        }
+        else{
+          Lexp[i][j] = 2000 * weights[i][j];
+
         }
       }
     }
