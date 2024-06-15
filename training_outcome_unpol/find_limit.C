@@ -29,11 +29,11 @@ void find_limit(){
     bdt_tree->SetBranchAddress("Iproc", &Iproc);
     Long64_t genEntries = bdt_tree->GetEntries();
     TH1F* bdt_hists[10];
-    bdt_hists[9] = new TH1F("bdt_dist","BDT response distribution",100,-1,1);
+    bdt_hists[9] = new TH1F("bdt_dist","BDT response distribution",100,-.5,.5);
     for (int i = 0; i <  sizeof(procId) / sizeof(std::string); i++){
         TString name = "bdt_dist " + procId[i];
         TString title = "BDT response distribution for " + procId[i];
-        bdt_hists[i] = new TH1F(name,title,100,-1,1);
+        bdt_hists[i] = new TH1F(name,title,100,-.6,.4);
     }
     for(Int_t entry = 0; entry < genEntries; ++entry){
         bdt_tree->GetEntry(entry);
@@ -46,12 +46,32 @@ void find_limit(){
         }
         //bdt_dist->Fill(BDTresp);
     }
-    std::cout<< sizeof(bdt_hists) / sizeof(TH1F*) << "\n";
+    //std::cout<< sizeof(bdt_hists) / sizeof(TH1F*) << "\n";
+    /*
     TCanvas* c = new TCanvas;
     c->SetLogy();
     for(int i = 0; i < sizeof(bdt_hists) / sizeof(TH1F*); i++){
         bdt_hists[i]->GetYaxis()->SetRangeUser(1, 5000);
         bdt_hists[i]->Draw("SAME");
     }
+    */
+    Double_t alpha = 0.1;
+    TH1F* gen_bg = new TH1F("gen_bg", "Generated background", 100, -.6, .4);
+    TH1F* gen_sig = new TH1F("gen_sig", "Generated signal", 100, -.6, .4);
+    for(int i = 0; i < sizeof(bdt_hists) / sizeof(TH1F*) - 1; i++){
+        if(bdt_hists[i]->Integral()>0) gen_bg->FillRandom(bdt_hists[i], bdt_hists[i]->Integral());
+    }
+    std::cout << gen_bg->Integral()<< "\n";
+    std::cout << bdt_hists[9]->Integral() << "\n";
+    Int_t nSig = bdt_hists[9]->Integral() * alpha;
+    std::cout << nSig << "\n";
+    for(int i = 0; i < nSig; i++){
+        gen_sig->FillRandom(bdt_hists[9], 1);
+    }
+    std::cout << gen_sig->Integral() << "\n";
+    TCanvas* c1 = new TCanvas;
+    gen_bg->SetLineColor(kRed);
+    gen_bg->Draw();
+    gen_sig->Draw("SAME");
     //bdt_dist->Draw();
 }
