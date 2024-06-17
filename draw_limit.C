@@ -1,8 +1,10 @@
 #include "TH1.h"
 #include "TCanvas.h"
 #include "TGraph.h"
+#include "TLegend.h"
 
 #include <RtypesCore.h>
+#include <TPad.h>
 #include <iostream>
 
 void draw_limit(){
@@ -15,8 +17,21 @@ void draw_limit(){
         avg_cros_lim[i] = (gen_cros[0][i] + gen_cros[1][i]) * alpha_val[i]/2;
     }
     TGraph *g = new TGraph(5,masses,avg_cros_lim);
+    g->SetTitle("95\% limit on S->bbll cross section");
+    g->SetMarkerSize(1);
+    g->SetMarkerStyle(8);
+    g->GetXaxis()->SetTitle("Mass [GeV]");
+    g->GetYaxis()->SetTitle("95\% limit on sigma(S->bbll) [fb]");
+
+    TLegend* legend = new TLegend(0.1, 0.8, 0.4, 0.9);
+    legend->AddEntry(g, "unpolarized");
     TCanvas* c = new TCanvas;
-    g->Draw("ap");
+    
+    g->Draw("APL");
+    legend->Draw();
+
+    //c->DrawClone();
+    c->SaveAs("limit_graph.png");
 
 }
 
