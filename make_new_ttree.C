@@ -66,10 +66,10 @@ Double_t Lgen_sig_bbll_arr[2][5] = {
     {920.67, 1113.3, 1484.5, 1781.2, 2247.2}
 };
 
-void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
-		const char *outFile="trees_for_training/bbll_sig_80_eRpL_new.root",
-		string plname="trees_for_training/bbll_sig_80_eRpL_new",
-		int Iproc=-1, int Ipol=1, double Ms=95., double Cs=359.465771, double w=0.032352,
+void make_new_ttree(const char *genFile="bbll_sig_30_eLpR.root",
+		const char *outFile="trees_for_training/bbll_sig_30_eLpR_new.root",
+		string plname="trees_for_training/bbll_sig_30_eLpR_new",
+		int Iproc=-1, int Ipol=0, int Ms=0, double Cs=359.465771, double w=0.032352,
 	       int imask = 15, int emask = 7, int mmask = 7 , int tmask=7, int amask = 7,
 	       int bmask = 7, int nbin=100, double mmax=200., int Bbit = 2){
 
@@ -205,11 +205,13 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
     int nEvt = 0;
     for(Int_t entry = 0; entry < genEntries; ++entry){
         // eLpR = 0; eRpL = 1; eLpL = 2; eRpR = 3
-        if(Iproc > -1){
+        //std::cout << Iproc << "\n";
+        if(Iproc >= 0){
             Lgen = Lgen_bg_arr[Ipol][Iproc];
         }
         else{
-            Lgen = Lgen_sig_bbll_arr[Iproc][2];
+            //std::cout << "else" << "\n";
+            Lgen = Lgen_sig_bbll_arr[Ipol][Ms];
         }
         myheader.Ipol = Ipol;
         myheader.Lgen = Lgen;
@@ -475,10 +477,11 @@ void make_new_ttree(const char *genFile="bbll_sig_80_eRpL.root",
         myevent.Etot = zp4.E() + E1 + E2;
         if(myevent.Etot > 500) continue;
         if(myevent.Mcorr != myevent.Mcorr) continue;
-        std::cout << myevent.Nmu;
+        //std::cout << myevent.Nmu;
+        /*
         if(myevent.Mcorr > 300){
             std::cout << "phi1: " << phi1 << " phi2: " << phi12 << " mcorr: " << myevent.Mcorr << "\n";
-        }
+        }*/
         if(myevent.Mcorr < 0) continue;
         TVector3* SCM_boostvec = new TVector3(-h1p4.Px()/h1p4.E(), -h1p4.Py()/h1p4.E(), -h1p4.Pz()/h1p4.E());
         TLorentzVector jet1P4_SCM= myrec[2];
