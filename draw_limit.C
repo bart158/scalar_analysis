@@ -16,7 +16,7 @@ void draw_limit(){
     for (int i = 0; i < 5; i++){
         avg_cros_lim[i] = (gen_cros[0][i] + gen_cros[1][i]) * alpha_val[i]/2;
     }
-    TGraph *g = new TGraph(5,masses,avg_cros_lim);
+    TGraph *g = new TGraph(5,masses,alpha_val);
     g->SetTitle("95\% limit on S->bbll cross section");
     g->SetMarkerSize(1);
     g->SetMarkerStyle(8);

@@ -221,18 +221,18 @@ string treename = "tree";         // tree name (should be the same in all input 
    Lgen = header.Lgen;
    dataloader->AddSignalTree( sigev2,  Lexp[beamsetting][Ipol]/Lgen,   TMVA::Types::kMaxTreeType );
 
-  TFile* bg_files[24];
-  TTree* bgevt[24];
-  TString bg_filenames[24] = {
+  TFile* bg_files[26];
+  TTree* bgevt[26];
+  TString bg_filenames[26] = {
     "qq_bg_eRpL_new.root", "qqll_bg_eRpL_new.root", "qqlv_bg_eRpL_new.root", "qqqq_bg_eRpL_new.root",
     "qqtt_bg_eRpL_new.root", "qqtv_bg_eRpL_new.root", "qqvv_bg_eRpL_new.root",
     "ttll_bg_eRpL_new.root", "tttt_bg_eRpL_new.root",
     "qq_bg_eLpR_new.root", "qqll_bg_eLpR_new.root", "qqlv_bg_eLpR_new.root", "qqqq_bg_eLpR_new.root",
     "qqtt_bg_eLpR_new.root", "qqtv_bg_eLpR_new.root", "qqvv_bg_eLpR_new.root",
     "ttll_bg_eLpR_new.root", "tttt_bg_eLpR_new.root", "qqll_bg_eLpL_new.root", "qqlv_bg_eLpL_new.root", "ttll_bg_eLpL_new.root",
-    "qqll_bg_eRpR_new.root", "qqlv_bg_eRpR_new.root", "ttll_bg_eRpR_new.root" };
+    "qqll_bg_eRpR_new.root", "qqlv_bg_eRpR_new.root", "ttll_bg_eRpR_new.root", "qqllvv_bg_eRpL_new.root", "qqllvv_bg_eLpR_new.root"};
 
-  for(int i = 0; i < 24; i++){
+  for(int i = 0; i < 26; i++){
     bg_files[i] = new TFile(path + bg_filenames[i]);
     if (!bg_files[i])
       {

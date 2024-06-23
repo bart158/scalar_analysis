@@ -39,37 +39,45 @@ R__LOAD_LIBRARY(delphes/libDelphes)
   qqtv       -           -          106.57      1154.4  
   ttll     688.559     688.318     487.072     556.402  
   tttt       -           -         8356.19     13483.2  
-    qq       -           -         15.7433     14.4222  
+    qq       -           -         15.7433     14.4222 
+qqllvv       -           -         1110.82     1879.71  
 */
 
 
 /*
 # Mass  bbvv_eLpR   bbvv_eRpL   bbll_eLpR   bbll_eRpL   bbqq_eLpR   bbqq_eRpL  
+    20       -           -         520.55       812.6        -           -     
     30     297.75      464.54      590.02      920.67      87.295      136.41  
+    40       -           -          652.3      1014.4        -           -     
     50     359.83      561.27      713.05      1113.3      105.72      165.04  
+    60       -           -         779.52      1217.8        -           -     
+    70       -           -         856.09      1335.9        -           -     
     80      479.5       747.5       951.7      1484.5       140.8      220.04  
+    90       -           -         1071.6      1670.1        -           -     
     95     576.05      900.74      1143.2      1781.2      169.27      264.54  
+   100       -           -         1225.9      1915.7        -           -     
    110      726.4      1132.7      1440.8      2247.2      213.29      333.71  
+   120       -           -         1753.8      2737.8        -           -     
 */
 // eLpR = 0; eRpL = 1; eLpL = 2; eRpR = 3
-// qqqq = 0; qqtt = 1; qqll = 2; qqvv = 3; qqlv = 4; qqtv = 5; ttll = 6; tttt = 7; qq = 8
-Double_t Lgen_bg_arr[4][9] = {
-    {69.9234, 337.801, 97.2588, 93.925, 102.891, 106.57, 487.072, 8356.19, 15.7433},
-    {103.269, 632.644, 155.698, 254.328, 576.273, 1154.4, 556.402, 13483.2, 14.4222},
-    {0, 0, 383.667, 0, 849.756, 0, 688.559, 0, 0},
-    {0, 0, 384.444, 0, 849.384, 0, 688.318, 0, 0}
+// qqqq = 0; qqtt = 1; qqll = 2; qqvv = 3; qqlv = 4; qqtv = 5; ttll = 6; tttt = 7; qq = 8; qqllvv = 9
+Double_t Lgen_bg_arr[4][10] = {
+    {69.9234, 337.801, 97.2588, 93.925, 102.891, 106.57, 487.072, 8356.19, 15.7433, 1110.82},
+    {103.269, 632.644, 155.698, 254.328, 576.273, 1154.4, 556.402, 13483.2, 14.4222, 1879.71},
+    {0, 0, 383.667, 0, 849.756, 0, 688.559, 0, 0, 0},
+    {0, 0, 384.444, 0, 849.384, 0, 688.318, 0, 0, 0}
 };
 // eLpR = 0; eRpL = 1; eLpL = 2; eRpR = 3
-// 30 = 0; 50 = 1, 80 = 2, 95 = 3, 110 = 4
-Double_t Lgen_sig_bbll_arr[2][5] = {
-    {590.02, 713.05, 951.7, 1143.2, 1440.8},
-    {920.67, 1113.3, 1484.5, 1781.2, 2247.2}
+// 30 = 0; 50 = 1, 80 = 2, 95 = 3, 110 = 4, 20 = 5, 40 = 6, 60 = 7, 70 = 8, 90 = 9, 100 = 10, 120 = 11
+Double_t Lgen_sig_bbll_arr[2][12] = {
+    {590.02, 713.05, 951.7, 1143.2, 1440.8, 520.55, 652.3, 779.52, 856.09, 1071.6, 1225.9, 1753.8},
+    {920.67, 1113.3, 1484.5, 1781.2, 2247.2, 812.6, 1014.4, 1217.8, 1335.9, 1670.1, 1915.7, 2737.8}
 };
 
-void make_new_ttree(const char *genFile="bbll_sig_30_eLpR.root",
-		const char *outFile="trees_for_training/bbll_sig_30_eLpR_new.root",
-		string plname="trees_for_training/bbll_sig_30_eLpR_new",
-		int Iproc=-1, int Ipol=0, int Ms=0, double Cs=359.465771, double w=0.032352,
+void make_new_ttree(const char *genFile="SM_bg_eRpL/qqllvv_bg_eRpL.root",
+		const char *outFile="trees_for_training/qqllvv_bg_eRpL_new.root",
+		string plname="trees_for_training/qqllvv_bg_eRpL_new",
+		int Iproc=9, int Ipol=1, int Ms=0, double Cs=359.465771, double w=0.032352,
 	       int imask = 15, int emask = 7, int mmask = 7 , int tmask=7, int amask = 7,
 	       int bmask = 7, int nbin=100, double mmax=200., int Bbit = 2){
 
