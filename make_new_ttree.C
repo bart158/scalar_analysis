@@ -74,10 +74,10 @@ Double_t Lgen_sig_bbll_arr[2][12] = {
     {920.67, 1113.3, 1484.5, 1781.2, 2247.2, 812.6, 1014.4, 1217.8, 1335.9, 1670.1, 1915.7, 2737.8}
 };
 
-void make_new_ttree(const char *genFile="SM_bg_eRpL/qqllvv_bg_eRpL.root",
-		const char *outFile="trees_for_training/qqllvv_bg_eRpL_new.root",
-		string plname="trees_for_training/qqllvv_bg_eRpL_new",
-		int Iproc=9, int Ipol=1, int Ms=0, double Cs=359.465771, double w=0.032352,
+void make_new_ttree(const char *genFile="bbll_sig_110_eLpR.root",
+		const char *outFile="trees_for_training/bbll_sig_110_eLpR_new.root",
+		string plname="trees_for_training/bbll_sig_110_eLpR_new",
+		int Iproc=-1, int Ipol=0, int Ms=4, double Cs=359.465771, double w=0.032352,
 	       int imask = 15, int emask = 7, int mmask = 7 , int tmask=7, int amask = 7,
 	       int bmask = 7, int nbin=100, double mmax=200., int Bbit = 2){
 
