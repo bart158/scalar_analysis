@@ -36,7 +36,7 @@ double fit_func(double *x, double *par){
 }
 
 void find_limit_with_loop(){
-    std::string procId[9] = {"qqqq", "qqtt", "qqll", "qqvv", "qqlv", "qqtv", "ttll", "tttt", "qq"};
+    std::string procId[10] = {"qqqq", "qqtt", "qqll", "qqvv", "qqlv", "qqtv", "ttll", "tttt", "qq", "qqllvv"};
     TFile* bdt_output_tree = new TFile("train_bdt_qqll.root");
     TTree* bdt_tree = (TTree*)bdt_output_tree->Get("dataset/TrainTree");
 
@@ -45,8 +45,8 @@ void find_limit_with_loop(){
     bdt_tree->SetBranchAddress("BDT", &BDTresp);
     bdt_tree->SetBranchAddress("Iproc", &Iproc);
     Long64_t genEntries = bdt_tree->GetEntries();
-    TH1F* bdt_hists[10];
-    bdt_hists[9] = new TH1F("bdt_dist","BDT response distribution",100,-.6,.4);
+    TH1F* bdt_hists[11];
+    bdt_hists[10] = new TH1F("bdt_dist","BDT response distribution",100,-.6,.4);
     for (int i = 0; i <  sizeof(procId) / sizeof(std::string); i++){
         TString name = "bdt_dist " + procId[i];
         TString title = "BDT response distribution for " + procId[i];
@@ -59,7 +59,7 @@ void find_limit_with_loop(){
             bdt_hists[indexproc]->Fill(BDTresp);
         }
         else{
-            bdt_hists[9]->Fill(BDTresp);
+            bdt_hists[10]->Fill(BDTresp);
         }
         //bdt_dist->Fill(BDTresp);
     }
@@ -77,9 +77,9 @@ void find_limit_with_loop(){
     */
     Double_t mean_sig = 0;
     Double_t mean_sig_err = 0;
-    Double_t alpha = 0.00063;
+    Double_t alpha = 0.000625;
     Int_t steps = 10000;
-    TH1F* sig_dist = new TH1F("hsig", "Distribution of fitted signal parameter", 50, -30, 70);
+    TH1F* sig_dist = new TH1F("hsig", "Distribution of fitted signal parameter", 50, -.002, .003);
     for(int m = 0; m < steps; m++){
         TRandom3* rnd = new TRandom3(0);
         Int_t randbin;
@@ -88,7 +88,7 @@ void find_limit_with_loop(){
         TH1F* gen_sig = new TH1F("gen_sig", "Generated signal", 100, -.6, .4);
 
         for(int i = 0; i < 100; i++){
-            randbin = rnd->Poisson(alpha * bdt_hists[9]->GetBinContent(i+1));
+            randbin = rnd->Poisson(alpha * bdt_hists[10]->GetBinContent(i+1));
                 for(int k = 0; k < randbin; k++){
                     gen_sig->Fill(0.01*i - 0.599);
                 }
@@ -104,10 +104,10 @@ void find_limit_with_loop(){
                 }
             }
         }
-        *sig_template = *bdt_hists[9];
+        *sig_template = *bdt_hists[10];
 
-        *bg_template = *bg_template * (1/bg_template->Integral());
-        *sig_template = *sig_template * (1/sig_template->Integral());
+        //*bg_template = *bg_template * (1/bg_template->Integral());
+        //*sig_template = *sig_template * (1/sig_template->Integral());
 
         TH1F* data = new TH1F("data", "Combined generated data", 100, -0.6, 0.4);
         data->Add(gen_bg, gen_sig);
@@ -129,7 +129,7 @@ void find_limit_with_loop(){
         delete func;
     }
     std::cout << "mean signal: " << mean_sig << " mean error: " << mean_sig_err << "ratio: " << mean_sig/mean_sig_err << "\n";
-    std::cout << "integral from 0: " << 1 - sig_dist->Integral(sig_dist->FindBin(-30),sig_dist->FindBin(1))/sig_dist->Integral() << "\n";
+    std::cout << "integral from 0: " << 1 - sig_dist->Integral(1,sig_dist->FindBin(0))/sig_dist->Integral() << "\n";
 
     TCanvas* csig = new TCanvas;
     sig_dist->Draw();

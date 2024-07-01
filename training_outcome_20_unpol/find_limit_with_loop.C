@@ -77,7 +77,7 @@ void find_limit_with_loop(){
     */
     Double_t mean_sig = 0;
     Double_t mean_sig_err = 0;
-    Double_t alpha = 0.00088;
+    Double_t alpha = 0.00036;
     Int_t steps = 10000;
     TH1F* sig_dist = new TH1F("hsig", "Distribution of fitted signal parameter", 50, -.002, .003);
     for(int m = 0; m < steps; m++){
@@ -129,7 +129,7 @@ void find_limit_with_loop(){
         delete func;
     }
     std::cout << "mean signal: " << mean_sig << " mean error: " << mean_sig_err << "ratio: " << mean_sig/mean_sig_err << "\n";
-    std::cout << "integral from 0: " << 1 - sig_dist->Integral(1,sig_dist->FindBin(0))/sig_dist->Integral() << "\n";
+    std::cout << "integral from 0: " << 1 - sig_dist->Integral(1,sig_dist->FindBin(0) )/sig_dist->Integral() << "\n";
 
     TCanvas* csig = new TCanvas;
     sig_dist->Draw();

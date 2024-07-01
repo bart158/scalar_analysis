@@ -35,7 +35,7 @@ double fit_func(double *x, double *par){
     return par[0] * bg_temp(x[0]) + par[1] * sig_temp(x[0]);
 }
 
-void find_limit_with_loop(){
+void find_limit_with_loop2(){
     std::string procId[10] = {"qqqq", "qqtt", "qqll", "qqvv", "qqlv", "qqtv", "ttll", "tttt", "qq", "qqllvv"};
     TFile* bdt_output_tree = new TFile("train_bdt_qqll.root");
     TTree* bdt_tree = (TTree*)bdt_output_tree->Get("dataset/TrainTree");
@@ -64,8 +64,11 @@ void find_limit_with_loop(){
         //bdt_dist->Fill(BDTresp);
     }
 
-
-
+    for(int i = 0; i < sizeof(bdt_hists) / sizeof(TH1F*) - 1; i++){
+        //if(bdt_hists[i]->Integral()>0) gen_bg->FillRandom(bdt_hists[i], bdt_hists[i]->Integral());
+        bg_template->Add(bdt_hists[i]);
+    }
+    *sig_template = *bdt_hists[10];
     //std::cout<< sizeof(bdt_hists) / sizeof(TH1F*) << "\n";
     /*
     TCanvas* c = new TCanvas;
@@ -75,9 +78,47 @@ void find_limit_with_loop(){
         bdt_hists[i]->Draw("SAME");
     }
     */
+    for(int i = 0; i < bg_template->GetNbinsX()+1; i++){
+        std::cout << sig_template->GetBinContent(i) << " ";
+    }
+    std::cout << "\n";
+    int ibin = 0;
+    int first_bg_bins_sum = 1;
+    int first_sig_bins_sum = 1;
+    double sec_der_sum = 0;
+    int bg_bins[100];
+    int sig_bins[100];
+    while(first_bg_bins_sum < 10){
+        first_bg_bins_sum+=bg_template->GetBinContent(ibin);
+        first_sig_bins_sum+=sig_template->GetBinContent(ibin);
+        ibin++;
+    }
+    sec_der_sum+=first_sig_bins_sum*first_sig_bins_sum/(double)first_bg_bins_sum;
+    int last_bg_bins_sum = 0;
+    int last_sig_bins_sum = 0;
+    int jbin = sig_template->GetNbinsX();
+    while(last_bg_bins_sum < 10){
+        last_bg_bins_sum+=bg_template->GetBinContent(jbin);
+        last_sig_bins_sum+=sig_template->GetBinContent(jbin);
+        jbin--;
+    }
+    sec_der_sum+=last_sig_bins_sum*last_sig_bins_sum/(double)last_bg_bins_sum;
+    std::cout << first_sig_bins_sum <<" ";
+    double sig;
+    for(int i = ibin; i < jbin+1; i++){
+        sig = sig_template->GetBinContent(i);
+        sec_der_sum+=sig*sig/bg_template->GetBinContent(i);
+        bg_bins[i-ibin] = bg_template->GetBinContent(i);
+        sig_bins[i-ibin] = sig;
+        std::cout << sig_bins[i-ibin] <<" ";
+    }
+    std::cout << last_sig_bins_sum <<"\n";
+    double alpha_org = 1.64 * TMath::Sqrt(1/sec_der_sum);
+    std::cout << alpha_org << "\n";
+
     Double_t mean_sig = 0;
     Double_t mean_sig_err = 0;
-    Double_t alpha = 0.00088;
+    Double_t alpha = alpha_org;
     Int_t steps = 10000;
     TH1F* sig_dist = new TH1F("hsig", "Distribution of fitted signal parameter", 50, -.002, .003);
     for(int m = 0; m < steps; m++){
@@ -96,7 +137,6 @@ void find_limit_with_loop(){
 
         for(int i = 0; i < sizeof(bdt_hists) / sizeof(TH1F*) - 1; i++){
             //if(bdt_hists[i]->Integral()>0) gen_bg->FillRandom(bdt_hists[i], bdt_hists[i]->Integral());
-            bg_template->Add(bdt_hists[i]);
             for(int j = 0; j < 100; j++){
                 randbin = rnd->Poisson(bdt_hists[i]->GetBinContent(j+1));
                 for(int k = 0; k < randbin; k++){
@@ -104,7 +144,7 @@ void find_limit_with_loop(){
                 }
             }
         }
-        *sig_template = *bdt_hists[10];
+        
 
         //*bg_template = *bg_template * (1/bg_template->Integral());
         //*sig_template = *sig_template * (1/sig_template->Integral());
@@ -128,12 +168,15 @@ void find_limit_with_loop(){
         delete data;
         delete func;
     }
+
+    
     std::cout << "mean signal: " << mean_sig << " mean error: " << mean_sig_err << "ratio: " << mean_sig/mean_sig_err << "\n";
-    std::cout << "integral from 0: " << 1 - sig_dist->Integral(1,sig_dist->FindBin(0))/sig_dist->Integral() << "\n";
+    std::cout << "integral from 0: " << 1 - sig_dist->Integral(1,sig_dist->FindBin(0) + 1)/sig_dist->Integral() << "\n";
 
     TCanvas* csig = new TCanvas;
     sig_dist->Draw();
     csig->SaveAs("signal_dist.png");
+    
     /*
     TCanvas* c1 = new TCanvas;
     gen_bg->SetLineColor(kRed);

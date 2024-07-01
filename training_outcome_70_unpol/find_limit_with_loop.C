@@ -77,7 +77,7 @@ void find_limit_with_loop(){
     */
     Double_t mean_sig = 0;
     Double_t mean_sig_err = 0;
-    Double_t alpha = 0.00088;
+    Double_t alpha = 0.00054;
     Int_t steps = 10000;
     TH1F* sig_dist = new TH1F("hsig", "Distribution of fitted signal parameter", 50, -.002, .003);
     for(int m = 0; m < steps; m++){
