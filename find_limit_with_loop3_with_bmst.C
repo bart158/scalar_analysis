@@ -121,6 +121,14 @@ void find_limit_with_loop3_with_bmst(std::string mass_point, int bmst = 4){
     char* char_path3 = new char[path3.length() + 1];
     strcpy(char_path3, path3.c_str());
 
+    std::string path4 = "../training_outcome_";
+    path4 += mass_point;
+    TString rfile4 = path4;
+    rfile4 += "_unpol/train_bdt_qqll.root";
+    path4 += "_unpol/train_bdt_qqll.root?#dataset/TrainTree";
+    char* char_path4 = new char[path4.length() + 1];
+    strcpy(char_path4, path4.c_str());
+
     bdt_tree->Add(char_path0);
     bdt_tree->Add(char_path1);
     bdt_tree->Add(char_path2);
@@ -130,10 +138,12 @@ void find_limit_with_loop3_with_bmst(std::string mass_point, int bmst = 4){
     TFile* fileRL = new TFile(rfile1);
     TFile* fileLL = new TFile(rfile2);
     TFile* fileRR = new TFile(rfile3);
+    TFile* fileunpol = new TFile(rfile4);
     TTree* treeLR = (TTree*)fileLR->Get("dataset/TrainTree");
     TTree* treeRL = (TTree*)fileRL->Get("dataset/TrainTree");
     TTree* treeLL = (TTree*)fileLL->Get("dataset/TrainTree");
     TTree* treeRR = (TTree*)fileRR->Get("dataset/TrainTree");
+    TTree* treeunpol = (TTree*)fileunpol->Get("dataset/TrainTree");
 
 
 
@@ -158,7 +168,9 @@ void find_limit_with_loop3_with_bmst(std::string mass_point, int bmst = 4){
     else if (bmst == 3) {
         get_traintree_entries(treeRR, bdt_hists, bmst);
     }
-    
+    else if (bmst == 4){
+        get_traintree_entries(treeunpol, bdt_hists, bmst);
+    }
     
     
 
@@ -221,7 +233,7 @@ void find_limit_with_loop3_with_bmst(std::string mass_point, int bmst = 4){
     TH1F* sig_dist = new TH1F("hsig", "Distribution of fitted signal parameter", 50, -.002, .003);
     Double_t me_ratio = 0;
     Double_t a = 0;
-    Double_t b = 0.4;
+    Double_t b = 0.2;
     while(me_ratio < 1.60 || me_ratio > 1.68){
         mean_sig = 0;
         mean_sig_err = 0;

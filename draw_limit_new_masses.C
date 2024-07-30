@@ -17,13 +17,13 @@
 void draw_limit_new_masses(){
     Double_t masses[12] = {20, 30, 40, 50, 60, 70, 80, 90, 95, 100, 110, 120};
     Double_t alpha_val_unpol[12] = {0.00036, 0.000625, 0.000575, 0.00043, 0.000557, 0.00054, 0.00077, 0.00255, 0.00225, 0.00155, 0.00088, 0.00077};
-    Double_t alpha_val_pol[4][12];
+    Double_t alpha_val_pol[5][12];
     Double_t alpha_val_comb[12];
-    std::string polarizations[4] = {"eLpR", "eRpL", "eLpL", "eRpR"};
+    std::string polarizations[5] = {"eLpR", "eRpL", "eLpL", "eRpR", "unpol"};
     
     std::ifstream file;
     std::string line;
-    for(int i = 0; i < 4; i++){
+    for(int i = 0; i < 5; i++){
         for(int j = 0; j < 12; j++){
             std::string path;
             path = "training_outcome_" + std::to_string((int)masses[j]) + "_" + polarizations[i] + "/alpha_val.txt";
@@ -47,7 +47,7 @@ void draw_limit_new_masses(){
     }
     TMultiGraph *mg = new TMultiGraph();
     mg->SetTitle("Alpha 95\% CL;mass [GeV];alpha val.q");
-    TGraph *g = new TGraph(12,masses,alpha_val_unpol);
+    TGraph *g = new TGraph(12,masses,alpha_val_pol[4]);
     TGraph *g0 = new TGraph(12,masses,alpha_val_pol[0]);
     TGraph *g1 = new TGraph(12,masses,alpha_val_pol[1]);
     TGraph *g2 = new TGraph(12,masses,alpha_val_pol[2]);
