@@ -1,0 +1,2 @@
+doliczyć wagi przy wyznaczaniu alpha
+zrobić dopasowanie z jednym parametrem zamiast dwóch

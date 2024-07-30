@@ -4,6 +4,7 @@
 #include "TLegend.h"
 #include "TMultiGraph.h"
 
+#include <Rtypes.h>
 #include <RtypesCore.h>
 #include <TMVA/Factory.h>
 #include <TPad.h>
@@ -17,6 +18,7 @@ void draw_limit_new_masses(){
     Double_t masses[12] = {20, 30, 40, 50, 60, 70, 80, 90, 95, 100, 110, 120};
     Double_t alpha_val_unpol[12] = {0.00036, 0.000625, 0.000575, 0.00043, 0.000557, 0.00054, 0.00077, 0.00255, 0.00225, 0.00155, 0.00088, 0.00077};
     Double_t alpha_val_pol[4][12];
+    Double_t alpha_val_comb[12];
     std::string polarizations[4] = {"eLpR", "eRpL", "eLpL", "eRpR"};
     
     std::ifstream file;
@@ -33,12 +35,25 @@ void draw_limit_new_masses(){
             file.close();
         }
     }
+    for(int j = 0; j < 12; j++){
+        std::string path;
+        path = "training_outcome_" + std::to_string((int)masses[j]) + "_comb/alpha_val.txt";
+        std::cout << path << "\n";
+        file.open(path);
+        getline(file, line);
+        std::cout << line << "\n";
+        alpha_val_comb[j] = std::stod(line);
+        file.close();
+    }
     TMultiGraph *mg = new TMultiGraph();
+    mg->SetTitle("Alpha 95\% CL;mass [GeV];alpha val.q");
     TGraph *g = new TGraph(12,masses,alpha_val_unpol);
     TGraph *g0 = new TGraph(12,masses,alpha_val_pol[0]);
     TGraph *g1 = new TGraph(12,masses,alpha_val_pol[1]);
     TGraph *g2 = new TGraph(12,masses,alpha_val_pol[2]);
     TGraph *g3 = new TGraph(12,masses,alpha_val_pol[3]);
+    TGraph *g4 = new TGraph(12, masses, alpha_val_comb);
+
     g->SetTitle("95\% limit on S->bbll cross section");
     g->SetMarkerSize(1);
     g->SetMarkerStyle(8);
@@ -53,31 +68,37 @@ void draw_limit_new_masses(){
     g2->SetMarkerStyle(8);
     g3->SetMarkerSize(1);
     g3->SetMarkerStyle(8);
+    g4->SetMarkerSize(1);
+    g4->SetMarkerStyle(8);
 
     g0->SetLineColor(kRed);
     g1->SetLineColor(kBlue);
     g2->SetLineColor(kGreen);
     g3->SetLineColor(kOrange);
+    g4->SetLineColor(kViolet);
 
-    TLegend* legend = new TLegend(0.1, 0.8, 0.4, 0.9);
+    TLegend* legend = new TLegend(0.1, 0.7, 0.4, 0.9);
     legend->AddEntry(g, "unpolarized");
     legend->AddEntry(g0, "LR");
     legend->AddEntry(g1, "RL");
     legend->AddEntry(g2, "LL");
     legend->AddEntry(g3, "RR");
+    legend->AddEntry(g4, "comb.");
     TCanvas* c = new TCanvas;
+    c->SetLogy(true);
     
     mg->Add(g);
     mg->Add(g0);
     mg->Add(g1);
     mg->Add(g2);
     mg->Add(g3);
+    mg->Add(g4);
 
     mg->Draw("APL");
     legend->Draw();
 
     //c->DrawClone();
-    c->SaveAs("limit_graph_new_masses.png");
+    c->SaveAs("limit_graph_new_masses_v2.png");
 
 }
 

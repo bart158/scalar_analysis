@@ -40,10 +40,39 @@ void find_limit_with_loop2(){
     TFile* bdt_output_tree = new TFile("train_bdt_qqll.root");
     TTree* bdt_tree = (TTree*)bdt_output_tree->Get("dataset/TrainTree");
 
+    Double_t weights[5][4] = {
+    {0.585, 0.035, 0.315, 0.065},
+    {0.035, 0.585, 0.065, 0.315},
+    {0.315, 0.065, 0.585, 0.035},
+    {0.065, 0.315, 0.035, 0.585},
+    {0.25, 0.25, 0.25, 0.25}};
+
+    Double_t Lexp[5][4];
+
+    for(int i = 0; i < 5; i++){
+      for(int j = 0; j < 4; j++){
+        if(i < 2){
+          Lexp[i][j] = 900 * weights[i][j];
+        }
+        else if(i < 4){
+          Lexp[i][j] = 100 * weights[i][j];
+        }
+        else{
+          Lexp[i][j] = 2000 * weights[i][j];
+
+        }
+      }
+    }
+
     Float_t BDTresp;
     Float_t Iproc;
+    Float_t Ipol;
+    Float_t Lgen;
+
     bdt_tree->SetBranchAddress("BDT", &BDTresp);
     bdt_tree->SetBranchAddress("Iproc", &Iproc);
+    bdt_tree->SetBranchAddress("Ipol", &Ipol);
+    bdt_tree->SetBranchAddress("Lgen", &Lgen);
     Long64_t genEntries = bdt_tree->GetEntries();
     TH1F* bdt_hists[11];
     bdt_hists[10] = new TH1F("bdt_dist","BDT response distribution",100,-.6,.4);
