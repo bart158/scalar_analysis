@@ -33,7 +33,7 @@ using namespace std;
 string treename = "tree";         // tree name (should be the same in all input files)
 
 
-            void train_bdt_qqll(string mass_point = "20", int beamsetting = 4, string variables = "Nel Nmu Nisr Nph jet1btag jet2btag Mjj Mcorr Mrec Etot log10(y23) log10(y34) log10(y45) costhetajetcms jetpt  Z.M() Z.Pt() Z.E()", // input BDT variable names
+            void train_bdt_qqll(string mass_point = "50", int beamsetting = 0, string variables = "Nel Nmu Nisr Nph jet1btag jet2btag Mjj Mcorr Mrec Etot log10(y23) log10(y34) log10(y45) costhetajetcms jetpt  Z.M() Z.Pt() Z.E()", // input BDT variable names
 			   string spectator = "Iproc Ipol Lgen", // spectator variable names (for output tree)
 			   double nsgen= 100.0,     // expected signal events
 			   double nbgen=1000.0,     // expected background events
@@ -206,7 +206,7 @@ string treename = "tree";         // tree name (should be the same in all input 
    TTree *sigev = (TTree *)(sigfile->FindObjectAny(treename.c_str()));
    TTree *sigev2 = (TTree *)(sigfile2->FindObjectAny(treename.c_str()));
    Int_t Ipol;
-   Double_t Lgen;
+   Float_t Lgen;
    sigev->SetBranchAddress("header", &header);
    
    sigev->GetEntry(0);
@@ -220,7 +220,8 @@ string treename = "tree";         // tree name (should be the same in all input 
    Ipol = header.Ipol;
    Lgen = header.Lgen;
    dataloader->AddSignalTree( sigev2,  Lexp[beamsetting][Ipol]/Lgen,   TMVA::Types::kMaxTreeType );
-
+     std::cout << "Lexp for the first signal file:\n" << Lexp[beamsetting][Ipol] << "\nLgen:\n" << Lgen << "\n";
+   std::cout << "weight for the first signal file:\n" << Lexp[beamsetting][Ipol]/Lgen << "\n";
   TFile* bg_files[26];
   TTree* bgevt[26];
   TString bg_filenames[26] = {

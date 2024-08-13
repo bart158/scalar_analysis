@@ -26,7 +26,7 @@ void draw_limit_new_masses(){
     for(int i = 0; i < 5; i++){
         for(int j = 0; j < 12; j++){
             std::string path;
-            path = "training_outcome_" + std::to_string((int)masses[j]) + "_" + polarizations[i] + "/alpha_val_org.txt";
+            path = "alpha_val_" + polarizations[i] + "_" + std::to_string((int)masses[j]) + ".txt";
             std::cout << path << "\n";
             file.open(path);
             getline(file, line);
@@ -37,7 +37,7 @@ void draw_limit_new_masses(){
     }
     for(int j = 0; j < 12; j++){
         std::string path;
-        path = "training_outcome_" + std::to_string((int)masses[j]) + "_comb/alpha_val_org.txt";
+        path = "alpha_val_comb_" + std::to_string((int)masses[j]) + ".txt";
         std::cout << path << "\n";
         file.open(path);
         getline(file, line);
