@@ -39,7 +39,7 @@ void testweights(){
       }
     }
 
-    TFile* pretrainfile = new TFile("trees_for_training/bbll_sig_40_eLpR_new.root");
+    TFile* pretrainfile = new TFile("trees_for_training/bbll_sig_40_eRpL_new.root");
     TTree* pretraintree = (TTree*)pretrainfile->FindObjectAny("tree");
 
     Long64_t entries_pretrain = pretraintree->GetEntries();
@@ -50,7 +50,7 @@ void testweights(){
     
     preLgen = head.Lgen;
 
-    TFile* posttrainfile = new TFile("training_outcome_40_eLpR/train_bdt_qqll.root");
+    TFile* posttrainfile = new TFile("training_outcome_40_eRpL/train_bdt_qqll.root");
     TTree* posttraintree = (TTree*)posttrainfile->FindObjectAny("TrainTree");
     TTree* posttesttree = (TTree*)posttrainfile->FindObjectAny("TestTree");
 
@@ -67,11 +67,14 @@ void testweights(){
     posttraintree->SetBranchAddress("Lgen", &postLgen);
     TH1F* bdt_hist = new TH1F("h_bdt", "BDT resp weighted", 100,-.6,.4);
     Long64_t entries_posttrain = posttraintree->GetEntries();
+    std::cout << "trained tree entries: " << entries_posttrain << "\n";
     for(Long64_t ievt = 0; ievt < entries_posttrain; ievt++){
         posttraintree->GetEntry(ievt);
-        if((int)Iproc != -1 || (int)Ipol != 0) continue;
+        if(Iproc == -1 && Ipol == 1) std::cout << Iproc << " " << Ipol <<"\n";
+        if(Iproc != -1 || (int)std::round(Ipol) != 1) continue;
         postLgen_s = postLgen;
-        bdt_hist->Fill(bdt, Lexp[0][0] / preLgen);
+        std::cout << Iproc << " " << bdt << "\n";
+        bdt_hist->Fill(bdt, Lexp[1][1] / preLgen);
     }
 
     posttesttree->SetBranchAddress("BDT", &bdt);
@@ -81,8 +84,8 @@ void testweights(){
     Long64_t entries_posttest = posttesttree->GetEntries();
     for(Long64_t ievt = 0; ievt < entries_posttest; ievt++){
         posttesttree->GetEntry(ievt);
-        if((int)Iproc != -1 || (int)Ipol != 0) continue;
-        bdt_hist->Fill(bdt, Lexp[0][0] / preLgen);
+        if((int)Iproc != -1 || (int)std::round(Ipol) != 1) continue;
+        bdt_hist->Fill(bdt, Lexp[1][1] / preLgen);
     }
 
     std::cout << "weighted preLgen: " << preLgen << "\n";

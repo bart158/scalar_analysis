@@ -77,7 +77,7 @@ void draw_limit_new_masses(){
     g3->SetLineColor(kOrange);
     g4->SetLineColor(kViolet);
 
-    TLegend* legend = new TLegend(0.1, 0.7, 0.4, 0.9);
+    TLegend* legend = new TLegend(0.1, 0.7, 0.3, 0.9);
     legend->AddEntry(g, "unpolarized");
     legend->AddEntry(g0, "LR");
     legend->AddEntry(g1, "RL");

@@ -4,7 +4,7 @@
 void train_bdt_qqll_var()
 {
 //=========Macro generated from canvas: canvas1/TMVA Input Variables
-//=========  (Mon Jul  1 17:37:09 2024) by ROOT version 6.32.02
+//=========  (Wed Aug 14 11:34:01 2024) by ROOT version 6.32.02
    TCanvas *canvas1 = new TCanvas("canvas1", "TMVA Input Variables",100,81,800,440);
    gStyle->SetOptStat(0);
    canvas1->Range(0,0,1,1);
@@ -30,10 +30,10 @@ void train_bdt_qqll_var()
    canvas1_1__0->SetFrameBorderMode(0);
    
    TH1F *Nel__Signal_Id__1 = new TH1F("Nel__Signal_Id__1","TMVA Input Variables: Nel",40,0,2.05);
-   Nel__Signal_Id__1->SetBinContent(1,10.65338);
-   Nel__Signal_Id__1->SetBinContent(40,8.858812);
-   Nel__Signal_Id__1->SetBinError(1,0.07315911);
-   Nel__Signal_Id__1->SetBinError(40,0.06671329);
+   Nel__Signal_Id__1->SetBinContent(1,10.62113);
+   Nel__Signal_Id__1->SetBinContent(40,8.891068);
+   Nel__Signal_Id__1->SetBinError(1,0.09955206);
+   Nel__Signal_Id__1->SetBinError(40,0.09111093);
    Nel__Signal_Id__1->SetMaximum(14.00079);
    Nel__Signal_Id__1->SetEntries(38838);
    Nel__Signal_Id__1->SetFillColor(38);
@@ -117,10 +117,10 @@ void train_bdt_qqll_var()
    leg->Draw();
    
    TH1F *Nel__Signal_Id__3 = new TH1F("Nel__Signal_Id__3","TMVA Input Variables: Nel",40,0,2.05);
-   Nel__Signal_Id__3->SetBinContent(1,10.65338);
-   Nel__Signal_Id__3->SetBinContent(40,8.858812);
-   Nel__Signal_Id__3->SetBinError(1,0.07315911);
-   Nel__Signal_Id__3->SetBinError(40,0.06671329);
+   Nel__Signal_Id__3->SetBinContent(1,10.62113);
+   Nel__Signal_Id__3->SetBinContent(40,8.891068);
+   Nel__Signal_Id__3->SetBinError(1,0.09955206);
+   Nel__Signal_Id__3->SetBinError(40,0.09111093);
    Nel__Signal_Id__3->SetMaximum(14.00079);
    Nel__Signal_Id__3->SetEntries(38838);
    Nel__Signal_Id__3->SetFillColor(38);
@@ -178,10 +178,10 @@ void train_bdt_qqll_var()
    canvas1_2__1->SetFrameBorderMode(0);
    
    TH1F *Nmu__Signal_Id__4 = new TH1F("Nmu__Signal_Id__4","TMVA Input Variables: Nmu",40,0,2.05);
-   Nmu__Signal_Id__4->SetBinContent(1,8.858812);
-   Nmu__Signal_Id__4->SetBinContent(40,10.65338);
-   Nmu__Signal_Id__4->SetBinError(1,0.06671329);
-   Nmu__Signal_Id__4->SetBinError(40,0.07315911);
+   Nmu__Signal_Id__4->SetBinContent(1,8.891068);
+   Nmu__Signal_Id__4->SetBinContent(40,10.62113);
+   Nmu__Signal_Id__4->SetBinError(1,0.09111093);
+   Nmu__Signal_Id__4->SetBinError(40,0.09955206);
    Nmu__Signal_Id__4->SetMaximum(11.84683);
    Nmu__Signal_Id__4->SetEntries(38838);
    Nmu__Signal_Id__4->SetFillColor(38);
@@ -231,10 +231,10 @@ void train_bdt_qqll_var()
    Nmu__Background_Id__5->Draw("histsame");
    
    TH1F *Nmu__Signal_Id__6 = new TH1F("Nmu__Signal_Id__6","TMVA Input Variables: Nmu",40,0,2.05);
-   Nmu__Signal_Id__6->SetBinContent(1,8.858812);
-   Nmu__Signal_Id__6->SetBinContent(40,10.65338);
-   Nmu__Signal_Id__6->SetBinError(1,0.06671329);
-   Nmu__Signal_Id__6->SetBinError(40,0.07315911);
+   Nmu__Signal_Id__6->SetBinContent(1,8.891068);
+   Nmu__Signal_Id__6->SetBinContent(40,10.62113);
+   Nmu__Signal_Id__6->SetBinError(1,0.09111093);
+   Nmu__Signal_Id__6->SetBinError(40,0.09955206);
    Nmu__Signal_Id__6->SetMaximum(11.84683);
    Nmu__Signal_Id__6->SetEntries(38838);
    Nmu__Signal_Id__6->SetFillColor(38);
@@ -279,7 +279,7 @@ void train_bdt_qqll_var()
    TPad *canvas1_3__2 = new TPad("canvas1_3", "canvas1_3",0.6766667,0.51,0.99,0.99);
    canvas1_3__2->Draw();
    canvas1_3__2->cd();
-   canvas1_3__2->Range(-0.4184352,-4.257085,2.042948,25.30601);
+   canvas1_3__2->Range(-0.418154,-4.259948,2.041575,25.32302);
    canvas1_3__2->SetFillColor(0);
    canvas1_3__2->SetBorderMode(0);
    canvas1_3__2->SetBorderSize(2);
@@ -291,14 +291,14 @@ void train_bdt_qqll_var()
    canvas1_3__2->SetFrameBorderMode(0);
    canvas1_3__2->SetFrameBorderMode(0);
    
-   TH1F *Nisr__Signal_Id__7 = new TH1F("Nisr__Signal_Id__7","TMVA Input Variables: Nisr",40,0,1.895265);
-   Nisr__Signal_Id__7->SetBinContent(1,19.79349);
-   Nisr__Signal_Id__7->SetBinContent(22,1.311735);
-   Nisr__Signal_Id__7->SetBinContent(41,0.01631511);
-   Nisr__Signal_Id__7->SetBinError(1,0.1037518);
-   Nisr__Signal_Id__7->SetBinError(22,0.02670899);
-   Nisr__Signal_Id__7->SetBinError(41,0.002978718);
-   Nisr__Signal_Id__7->SetMaximum(22.3497);
+   TH1F *Nisr__Signal_Id__7 = new TH1F("Nisr__Signal_Id__7","TMVA Input Variables: Nisr",40,0,1.893991);
+   Nisr__Signal_Id__7->SetBinContent(1,19.81836);
+   Nisr__Signal_Id__7->SetBinContent(22,1.301058);
+   Nisr__Signal_Id__7->SetBinContent(41,0.01834898);
+   Nisr__Signal_Id__7->SetBinError(1,0.1415479);
+   Nisr__Signal_Id__7->SetBinError(22,0.03625769);
+   Nisr__Signal_Id__7->SetBinError(41,0.004325541);
+   Nisr__Signal_Id__7->SetMaximum(22.36473);
    Nisr__Signal_Id__7->SetEntries(38838);
    Nisr__Signal_Id__7->SetFillColor(38);
 
@@ -312,7 +312,7 @@ void train_bdt_qqll_var()
    Nisr__Signal_Id__7->GetXaxis()->SetTitleSize(0.054);
    Nisr__Signal_Id__7->GetXaxis()->SetTitleOffset(1.25);
    Nisr__Signal_Id__7->GetXaxis()->SetTitleFont(42);
-   Nisr__Signal_Id__7->GetYaxis()->SetTitle("(1/N) dN_{ }/^{ }0.0474 ");
+   Nisr__Signal_Id__7->GetYaxis()->SetTitle("(1/N) dN_{ }/^{ }0.0473 ");
    Nisr__Signal_Id__7->GetYaxis()->SetLabelFont(42);
    Nisr__Signal_Id__7->GetYaxis()->SetLabelOffset(0.012);
    Nisr__Signal_Id__7->GetYaxis()->SetLabelSize(0.048);
@@ -324,13 +324,13 @@ void train_bdt_qqll_var()
    Nisr__Signal_Id__7->GetZaxis()->SetTitleFont(42);
    Nisr__Signal_Id__7->Draw("hist");
    
-   TH1F *Nisr__Background_Id__8 = new TH1F("Nisr__Background_Id__8","Nisr",40,0,1.895265);
-   Nisr__Background_Id__8->SetBinContent(1,20.31791);
-   Nisr__Background_Id__8->SetBinContent(22,0.7873204);
-   Nisr__Background_Id__8->SetBinContent(41,0.02345606);
-   Nisr__Background_Id__8->SetBinError(1,0.1779293);
-   Nisr__Background_Id__8->SetBinError(22,0.03381469);
-   Nisr__Background_Id__8->SetBinError(41,0.005767765);
+   TH1F *Nisr__Background_Id__8 = new TH1F("Nisr__Background_Id__8","Nisr",40,0,1.893991);
+   Nisr__Background_Id__8->SetBinContent(1,20.33157);
+   Nisr__Background_Id__8->SetBinContent(22,0.7878498);
+   Nisr__Background_Id__8->SetBinContent(41,0.02347184);
+   Nisr__Background_Id__8->SetBinError(1,0.178049);
+   Nisr__Background_Id__8->SetBinError(22,0.03383743);
+   Nisr__Background_Id__8->SetBinError(41,0.005771644);
    Nisr__Background_Id__8->SetEntries(41017);
    Nisr__Background_Id__8->SetFillColor(2);
    Nisr__Background_Id__8->SetFillStyle(3554);
@@ -340,7 +340,7 @@ void train_bdt_qqll_var()
    Nisr__Background_Id__8->GetXaxis()->SetLabelFont(42);
    Nisr__Background_Id__8->GetXaxis()->SetTitleOffset(1);
    Nisr__Background_Id__8->GetXaxis()->SetTitleFont(42);
-   Nisr__Background_Id__8->GetYaxis()->SetTitle("dN_{ }/^{ }0.0474 ");
+   Nisr__Background_Id__8->GetYaxis()->SetTitle("dN_{ }/^{ }0.0473 ");
    Nisr__Background_Id__8->GetYaxis()->SetLabelFont(42);
    Nisr__Background_Id__8->GetYaxis()->SetTitleFont(42);
    Nisr__Background_Id__8->GetZaxis()->SetLabelFont(42);
@@ -348,14 +348,14 @@ void train_bdt_qqll_var()
    Nisr__Background_Id__8->GetZaxis()->SetTitleFont(42);
    Nisr__Background_Id__8->Draw("histsame");
    
-   TH1F *Nisr__Signal_Id__9 = new TH1F("Nisr__Signal_Id__9","TMVA Input Variables: Nisr",40,0,1.895265);
-   Nisr__Signal_Id__9->SetBinContent(1,19.79349);
-   Nisr__Signal_Id__9->SetBinContent(22,1.311735);
-   Nisr__Signal_Id__9->SetBinContent(41,0.01631511);
-   Nisr__Signal_Id__9->SetBinError(1,0.1037518);
-   Nisr__Signal_Id__9->SetBinError(22,0.02670899);
-   Nisr__Signal_Id__9->SetBinError(41,0.002978718);
-   Nisr__Signal_Id__9->SetMaximum(22.3497);
+   TH1F *Nisr__Signal_Id__9 = new TH1F("Nisr__Signal_Id__9","TMVA Input Variables: Nisr",40,0,1.893991);
+   Nisr__Signal_Id__9->SetBinContent(1,19.81836);
+   Nisr__Signal_Id__9->SetBinContent(22,1.301058);
+   Nisr__Signal_Id__9->SetBinContent(41,0.01834898);
+   Nisr__Signal_Id__9->SetBinError(1,0.1415479);
+   Nisr__Signal_Id__9->SetBinError(22,0.03625769);
+   Nisr__Signal_Id__9->SetBinError(41,0.004325541);
+   Nisr__Signal_Id__9->SetMaximum(22.36473);
    Nisr__Signal_Id__9->SetEntries(38838);
    Nisr__Signal_Id__9->SetFillColor(38);
 
@@ -369,7 +369,7 @@ void train_bdt_qqll_var()
    Nisr__Signal_Id__9->GetXaxis()->SetTitleSize(0.054);
    Nisr__Signal_Id__9->GetXaxis()->SetTitleOffset(1.25);
    Nisr__Signal_Id__9->GetXaxis()->SetTitleFont(42);
-   Nisr__Signal_Id__9->GetYaxis()->SetTitle("(1/N) dN_{ }/^{ }0.0474 ");
+   Nisr__Signal_Id__9->GetYaxis()->SetTitle("(1/N) dN_{ }/^{ }0.0473 ");
    Nisr__Signal_Id__9->GetYaxis()->SetLabelFont(42);
    Nisr__Signal_Id__9->GetYaxis()->SetLabelOffset(0.012);
    Nisr__Signal_Id__9->GetYaxis()->SetLabelSize(0.048);
@@ -399,7 +399,7 @@ void train_bdt_qqll_var()
    TPad *canvas1_4__3 = new TPad("canvas1_4", "canvas1_4",0.01,0.01,0.3233333,0.49);
    canvas1_4__3->Draw();
    canvas1_4__3->cd();
-   canvas1_4__3->Range(-0.7977896,-2.040362,3.89509,12.12882);
+   canvas1_4__3->Range(-0.7920001,-2.061295,3.866824,12.25325);
    canvas1_4__3->SetFillColor(0);
    canvas1_4__3->SetBorderMode(0);
    canvas1_4__3->SetBorderSize(2);
@@ -411,18 +411,18 @@ void train_bdt_qqll_var()
    canvas1_4__3->SetFrameBorderMode(0);
    canvas1_4__3->SetFrameBorderMode(0);
    
-   TH1F *Nph__Signal_Id__10 = new TH1F("Nph__Signal_Id__10","TMVA Input Variables: Nph",40,0,3.613517);
-   Nph__Signal_Id__10->SetBinContent(1,9.738089);
-   Nph__Signal_Id__10->SetBinContent(12,1.229696);
-   Nph__Signal_Id__10->SetBinContent(23,0.09150035);
-   Nph__Signal_Id__10->SetBinContent(34,0.01026172);
-   Nph__Signal_Id__10->SetBinContent(41,0.001140191);
-   Nph__Signal_Id__10->SetBinError(1,0.05268606);
-   Nph__Signal_Id__10->SetBinError(12,0.01872224);
-   Nph__Signal_Id__10->SetBinError(23,0.005107052);
-   Nph__Signal_Id__10->SetBinError(34,0.001710287);
-   Nph__Signal_Id__10->SetBinError(41,0.0005700956);
-   Nph__Signal_Id__10->SetMaximum(10.7119);
+   TH1F *Nph__Signal_Id__10 = new TH1F("Nph__Signal_Id__10","TMVA Input Variables: Nph",40,0,3.587294);
+   Nph__Signal_Id__10->SetBinContent(1,9.837999);
+   Nph__Signal_Id__10->SetBinContent(12,1.218184);
+   Nph__Signal_Id__10->SetBinContent(23,0.08394289);
+   Nph__Signal_Id__10->SetBinContent(34,0.01033864);
+   Nph__Signal_Id__10->SetBinContent(41,8.5115e-05);
+   Nph__Signal_Id__10->SetBinError(1,0.07243835);
+   Nph__Signal_Id__10->SetBinError(12,0.02547368);
+   Nph__Signal_Id__10->SetBinError(23,0.006666065);
+   Nph__Signal_Id__10->SetBinError(34,0.002348298);
+   Nph__Signal_Id__10->SetBinError(41,4.25575e-05);
+   Nph__Signal_Id__10->SetMaximum(10.8218);
    Nph__Signal_Id__10->SetEntries(38838);
    Nph__Signal_Id__10->SetFillColor(38);
 
@@ -436,7 +436,7 @@ void train_bdt_qqll_var()
    Nph__Signal_Id__10->GetXaxis()->SetTitleSize(0.054);
    Nph__Signal_Id__10->GetXaxis()->SetTitleOffset(1.25);
    Nph__Signal_Id__10->GetXaxis()->SetTitleFont(42);
-   Nph__Signal_Id__10->GetYaxis()->SetTitle("(1/N) dN_{ }/^{ }0.0903 ");
+   Nph__Signal_Id__10->GetYaxis()->SetTitle("(1/N) dN_{ }/^{ }0.0897 ");
    Nph__Signal_Id__10->GetYaxis()->SetLabelFont(42);
    Nph__Signal_Id__10->GetYaxis()->SetLabelOffset(0.012);
    Nph__Signal_Id__10->GetYaxis()->SetLabelSize(0.048);
@@ -448,17 +448,17 @@ void train_bdt_qqll_var()
    Nph__Signal_Id__10->GetZaxis()->SetTitleFont(42);
    Nph__Signal_Id__10->Draw("hist");
    
-   TH1F *Nph__Background_Id__11 = new TH1F("Nph__Background_Id__11","Nph",40,0,3.613517);
-   Nph__Background_Id__11->SetBinContent(1,9.369143);
-   Nph__Background_Id__11->SetBinContent(12,1.49719);
-   Nph__Background_Id__11->SetBinContent(23,0.1663608);
-   Nph__Background_Id__11->SetBinContent(34,0.03685334);
-   Nph__Background_Id__11->SetBinContent(41,0.01332005);
-   Nph__Background_Id__11->SetBinError(1,0.08760907);
-   Nph__Background_Id__11->SetBinError(12,0.03460539);
-   Nph__Background_Id__11->SetBinError(23,0.01110598);
-   Nph__Background_Id__11->SetBinError(34,0.005376427);
-   Nph__Background_Id__11->SetBinError(41,0.003300248);
+   TH1F *Nph__Background_Id__11 = new TH1F("Nph__Background_Id__11","Nph",40,0,3.587294);
+   Nph__Background_Id__11->SetBinContent(1,9.43763);
+   Nph__Background_Id__11->SetBinContent(12,1.508135);
+   Nph__Background_Id__11->SetBinContent(23,0.1675769);
+   Nph__Background_Id__11->SetBinContent(34,0.03712274);
+   Nph__Background_Id__11->SetBinContent(41,0.01341741);
+   Nph__Background_Id__11->SetBinError(1,0.08824949);
+   Nph__Background_Id__11->SetBinError(12,0.03485835);
+   Nph__Background_Id__11->SetBinError(23,0.01118716);
+   Nph__Background_Id__11->SetBinError(34,0.005415728);
+   Nph__Background_Id__11->SetBinError(41,0.003324372);
    Nph__Background_Id__11->SetEntries(41017);
    Nph__Background_Id__11->SetFillColor(2);
    Nph__Background_Id__11->SetFillStyle(3554);
@@ -468,7 +468,7 @@ void train_bdt_qqll_var()
    Nph__Background_Id__11->GetXaxis()->SetLabelFont(42);
    Nph__Background_Id__11->GetXaxis()->SetTitleOffset(1);
    Nph__Background_Id__11->GetXaxis()->SetTitleFont(42);
-   Nph__Background_Id__11->GetYaxis()->SetTitle("dN_{ }/^{ }0.0903 ");
+   Nph__Background_Id__11->GetYaxis()->SetTitle("dN_{ }/^{ }0.0897 ");
    Nph__Background_Id__11->GetYaxis()->SetLabelFont(42);
    Nph__Background_Id__11->GetYaxis()->SetTitleFont(42);
    Nph__Background_Id__11->GetZaxis()->SetLabelFont(42);
@@ -476,18 +476,18 @@ void train_bdt_qqll_var()
    Nph__Background_Id__11->GetZaxis()->SetTitleFont(42);
    Nph__Background_Id__11->Draw("histsame");
    
-   TH1F *Nph__Signal_Id__12 = new TH1F("Nph__Signal_Id__12","TMVA Input Variables: Nph",40,0,3.613517);
-   Nph__Signal_Id__12->SetBinContent(1,9.738089);
-   Nph__Signal_Id__12->SetBinContent(12,1.229696);
-   Nph__Signal_Id__12->SetBinContent(23,0.09150035);
-   Nph__Signal_Id__12->SetBinContent(34,0.01026172);
-   Nph__Signal_Id__12->SetBinContent(41,0.001140191);
-   Nph__Signal_Id__12->SetBinError(1,0.05268606);
-   Nph__Signal_Id__12->SetBinError(12,0.01872224);
-   Nph__Signal_Id__12->SetBinError(23,0.005107052);
-   Nph__Signal_Id__12->SetBinError(34,0.001710287);
-   Nph__Signal_Id__12->SetBinError(41,0.0005700956);
-   Nph__Signal_Id__12->SetMaximum(10.7119);
+   TH1F *Nph__Signal_Id__12 = new TH1F("Nph__Signal_Id__12","TMVA Input Variables: Nph",40,0,3.587294);
+   Nph__Signal_Id__12->SetBinContent(1,9.837999);
+   Nph__Signal_Id__12->SetBinContent(12,1.218184);
+   Nph__Signal_Id__12->SetBinContent(23,0.08394289);
+   Nph__Signal_Id__12->SetBinContent(34,0.01033864);
+   Nph__Signal_Id__12->SetBinContent(41,8.5115e-05);
+   Nph__Signal_Id__12->SetBinError(1,0.07243835);
+   Nph__Signal_Id__12->SetBinError(12,0.02547368);
+   Nph__Signal_Id__12->SetBinError(23,0.006666065);
+   Nph__Signal_Id__12->SetBinError(34,0.002348298);
+   Nph__Signal_Id__12->SetBinError(41,4.25575e-05);
+   Nph__Signal_Id__12->SetMaximum(10.8218);
    Nph__Signal_Id__12->SetEntries(38838);
    Nph__Signal_Id__12->SetFillColor(38);
 
@@ -501,7 +501,7 @@ void train_bdt_qqll_var()
    Nph__Signal_Id__12->GetXaxis()->SetTitleSize(0.054);
    Nph__Signal_Id__12->GetXaxis()->SetTitleOffset(1.25);
    Nph__Signal_Id__12->GetXaxis()->SetTitleFont(42);
-   Nph__Signal_Id__12->GetYaxis()->SetTitle("(1/N) dN_{ }/^{ }0.0903 ");
+   Nph__Signal_Id__12->GetYaxis()->SetTitle("(1/N) dN_{ }/^{ }0.0897 ");
    Nph__Signal_Id__12->GetYaxis()->SetLabelFont(42);
    Nph__Signal_Id__12->GetYaxis()->SetLabelOffset(0.012);
    Nph__Signal_Id__12->GetYaxis()->SetLabelSize(0.048);
@@ -531,7 +531,7 @@ void train_bdt_qqll_var()
    TPad *canvas1_5__4 = new TPad("canvas1_5", "canvas1_5",0.3433333,0.01,0.6566667,0.49);
    canvas1_5__4->Draw();
    canvas1_5__4->cd();
-   canvas1_5__4->Range(-0.2262987,-7.356528,1.10487,43.73047);
+   canvas1_5__4->Range(-0.2262987,-7.367787,1.10487,43.7974);
    canvas1_5__4->SetFillColor(0);
    canvas1_5__4->SetBorderMode(0);
    canvas1_5__4->SetBorderSize(2);
@@ -544,11 +544,11 @@ void train_bdt_qqll_var()
    canvas1_5__4->SetFrameBorderMode(0);
    
    TH1F *jet1btag__Signal_Id__13 = new TH1F("jet1btag__Signal_Id__13","TMVA Input Variables: jet1btag",40,0,1.025);
-   jet1btag__Signal_Id__13->SetBinContent(1,3.913693);
-   jet1btag__Signal_Id__13->SetBinContent(40,35.1107);
-   jet1btag__Signal_Id__13->SetBinError(1,0.06270945);
-   jet1btag__Signal_Id__13->SetBinError(40,0.1878276);
-   jet1btag__Signal_Id__13->SetMaximum(38.62177);
+   jet1btag__Signal_Id__13->SetBinContent(1,3.859953);
+   jet1btag__Signal_Id__13->SetBinContent(40,35.16444);
+   jet1btag__Signal_Id__13->SetBinError(1,0.08483887);
+   jet1btag__Signal_Id__13->SetBinError(40,0.256193);
+   jet1btag__Signal_Id__13->SetMaximum(38.68088);
    jet1btag__Signal_Id__13->SetEntries(38838);
    jet1btag__Signal_Id__13->SetFillColor(38);
 
@@ -597,11 +597,11 @@ void train_bdt_qqll_var()
    jet1btag__Background_Id__14->Draw("histsame");
    
    TH1F *jet1btag__Signal_Id__15 = new TH1F("jet1btag__Signal_Id__15","TMVA Input Variables: jet1btag",40,0,1.025);
-   jet1btag__Signal_Id__15->SetBinContent(1,3.913693);
-   jet1btag__Signal_Id__15->SetBinContent(40,35.1107);
-   jet1btag__Signal_Id__15->SetBinError(1,0.06270945);
-   jet1btag__Signal_Id__15->SetBinError(40,0.1878276);
-   jet1btag__Signal_Id__15->SetMaximum(38.62177);
+   jet1btag__Signal_Id__15->SetBinContent(1,3.859953);
+   jet1btag__Signal_Id__15->SetBinContent(40,35.16444);
+   jet1btag__Signal_Id__15->SetBinError(1,0.08483887);
+   jet1btag__Signal_Id__15->SetBinError(40,0.256193);
+   jet1btag__Signal_Id__15->SetMaximum(38.68088);
    jet1btag__Signal_Id__15->SetEntries(38838);
    jet1btag__Signal_Id__15->SetFillColor(38);
 
@@ -645,7 +645,7 @@ void train_bdt_qqll_var()
    TPad *canvas1_6__5 = new TPad("canvas1_6", "canvas1_6",0.6766667,0.01,0.99,0.49);
    canvas1_6__5->Draw();
    canvas1_6__5->cd();
-   canvas1_6__5->Range(-0.2262987,-6.711887,1.10487,39.89844);
+   canvas1_6__5->Range(-0.2262987,-6.7066,1.10487,39.86701);
    canvas1_6__5->SetFillColor(0);
    canvas1_6__5->SetBorderMode(0);
    canvas1_6__5->SetBorderSize(2);
@@ -658,11 +658,11 @@ void train_bdt_qqll_var()
    canvas1_6__5->SetFrameBorderMode(0);
    
    TH1F *jet2btag__Signal_Id__16 = new TH1F("jet2btag__Signal_Id__16","TMVA Input Variables: jet2btag",40,0,1.025);
-   jet2btag__Signal_Id__16->SetBinContent(1,6.990388);
-   jet2btag__Signal_Id__16->SetBinContent(40,32.034);
-   jet2btag__Signal_Id__16->SetBinError(1,0.08380893);
-   jet2btag__Signal_Id__16->SetBinError(40,0.1794094);
-   jet2btag__Signal_Id__16->SetMaximum(35.23741);
+   jet2btag__Signal_Id__16->SetBinContent(1,7.01562);
+   jet2btag__Signal_Id__16->SetBinContent(40,32.00877);
+   jet2btag__Signal_Id__16->SetBinError(1,0.1144527);
+   jet2btag__Signal_Id__16->SetBinError(40,0.2443985);
+   jet2btag__Signal_Id__16->SetMaximum(35.20965);
    jet2btag__Signal_Id__16->SetEntries(38838);
    jet2btag__Signal_Id__16->SetFillColor(38);
 
@@ -711,11 +711,11 @@ void train_bdt_qqll_var()
    jet2btag__Background_Id__17->Draw("histsame");
    
    TH1F *jet2btag__Signal_Id__18 = new TH1F("jet2btag__Signal_Id__18","TMVA Input Variables: jet2btag",40,0,1.025);
-   jet2btag__Signal_Id__18->SetBinContent(1,6.990388);
-   jet2btag__Signal_Id__18->SetBinContent(40,32.034);
-   jet2btag__Signal_Id__18->SetBinError(1,0.08380893);
-   jet2btag__Signal_Id__18->SetBinError(40,0.1794094);
-   jet2btag__Signal_Id__18->SetMaximum(35.23741);
+   jet2btag__Signal_Id__18->SetBinContent(1,7.01562);
+   jet2btag__Signal_Id__18->SetBinContent(40,32.00877);
+   jet2btag__Signal_Id__18->SetBinError(1,0.1144527);
+   jet2btag__Signal_Id__18->SetBinError(40,0.2443985);
+   jet2btag__Signal_Id__18->SetMaximum(35.20965);
    jet2btag__Signal_Id__18->SetEntries(38838);
    jet2btag__Signal_Id__18->SetFillColor(38);
 

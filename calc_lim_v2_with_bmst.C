@@ -177,6 +177,12 @@ void calc_lim_v2_with_bmst(std::string mass_point = "80", int bmst = 4){
     else if (bmst == 4){
         get_traintree_entries(treeunpol, bdt_hists, bmst);
     }
+    else if(bmst == 5){
+        get_traintree_entries(treeLR, bdt_hists, 0);
+        get_traintree_entries(treeRL, bdt_hists, 1);
+        get_traintree_entries(treeLL, bdt_hists, 2);
+        get_traintree_entries(treeRR, bdt_hists, 3);
+    }
 
     for(int i = 0; i < sizeof(bdt_hists) / sizeof(TH1F*) - 1; i++){
         //if(bdt_hists[i]->Integral()>0) gen_bg->FillRandom(bdt_hists[i], bdt_hists[i]->Integral());
@@ -223,8 +229,11 @@ void calc_lim_v2_with_bmst(std::string mass_point = "80", int bmst = 4){
         case 3:
             outfilename+="eRpR_";
             break;
-        default:
+        case 4:
             outfilename+="unpol_";
+            break;
+        case 5:
+            outfilename+="comb_";
             break;
     }
     outfilename += (std::string)mass_point;
