@@ -23,6 +23,22 @@
 TH1F* bg_template = new TH1F("bg_temp", "Background template", 100, -.6, .4);
 TH1F* sig_template = new TH1F("sig_temp", "Signal template", 100, -.6, .4);
 
+TH1F* sig_summed;
+TH1F* bg_summed;
+
+double bg_sum_temp(Double_t x){
+    return bg_summed->GetBinContent(bg_summed->FindBin(x));
+}
+
+double sig_sum_temp(Double_t x){
+    return sig_summed->GetBinContent(sig_summed->FindBin(x));
+}
+
+double fit_sum_func(double *x, double *par){
+    //std::cout << "fit_func called\n";
+    return bg_sum_temp(x[0]) + par[0] * sig_sum_temp(x[0]);
+}
+
 double bg_temp(Double_t x){
     return bg_template->GetBinContent(bg_template->FindBin(x));
 }
@@ -85,8 +101,25 @@ void get_traintree_entries(TTree *bdt_tree, TH1F* bdt_hists[], int beamsetting){
         //bdt_dist->Fill(BDTresp);
     }
 }
-
-void find_limit_with_loop3_verify(std::string mass_point = "50"){
+void sum_low_bins(TH1F* sig_hist, TH1F* bg_hist, std::vector<float>* sig_mod, std::vector<float>* bg_mod){
+    for(int i = 100; i > 0; i--){
+        //std::cout << sig_comb->GetBinContent(i) << " " << bg_comb->GetBinContent(i) << "\n";
+        if(sig_mod->empty()){
+            sig_mod->push_back(sig_hist->GetBinContent(i));
+            bg_mod->push_back(bg_hist->GetBinContent(i));
+            continue;
+        }
+        if(bg_hist->GetBinContent(i+1) < 300){
+            sig_mod->back() += sig_hist->GetBinContent(i);
+            bg_mod->back() += bg_hist->GetBinContent(i);
+        }
+        else{
+            sig_mod->push_back(sig_hist->GetBinContent(i));
+            bg_mod->push_back(bg_hist->GetBinContent(i));
+        }
+    }
+}
+void find_limit_with_loop3_verify(std::string mass_point = "80"){
     std::string procId[10] = {"qqqq", "qqtt", "qqll", "qqvv", "qqlv", "qqtv", "ttll", "tttt", "qq", "qqllvv"};
     TChain* bdt_tree = new TChain;
     std::string path0 = "../training_outcome_";
@@ -169,13 +202,45 @@ void find_limit_with_loop3_verify(std::string mass_point = "50"){
         std::cout << sig_template->GetBinContent(i) << " ";
     }
     std::cout << "\n";
-    
 
+    std::vector<float> sig_bin_vec, bg_bin_vec;
+
+    sum_low_bins(sig_template, bg_template, &sig_bin_vec, &bg_bin_vec);
+    double sum_sig_vec = 0;
+    for(int i = 0; i < sig_bin_vec.size(); i++){
+        sum_sig_vec += sig_bin_vec.at(i);
+    }
+    std::cout << sig_template->GetEntries() << " " << sig_template->Integral() << " " << sum_sig_vec << "\n";
+    if(sig_bin_vec.size() != bg_bin_vec.size()){
+        std::cout << "signal and background have different binning!!!\n";
+        return;
+    }
+    sig_summed = new TH1F("sig_sum", "Signal summed temp", sig_bin_vec.size(), 0, sig_bin_vec.size());
+    bg_summed = new TH1F("bg_sum", "Background summed temp", bg_bin_vec.size(), 0, bg_bin_vec.size());
+
+    for(int i = 0; i < sig_bin_vec.size(); i++){
+        sig_summed->SetBinContent(i+1, sig_bin_vec.at(i));
+        bg_summed->SetBinContent(i+1, bg_bin_vec.at(i));
+    }
+    TCanvas* c_summed = new TCanvas;
+    sig_summed->Draw();
+    bg_summed->SetLineColor(kRed);
+    bg_summed->Draw("SAME");
+    c_summed->SetLogy();
+    c_summed->SaveAs("summ_hists.png");
     Double_t mean_sig = 0;
     Double_t mean_sig_err = 0;
-    Double_t alpha = 0.00261137;
+    Double_t alpha_50_new_m = 0.00261137;
+    Double_t alpha_test = 0.000445;
+    Double_t alpha = 0.00454707;
+    std::ifstream get_alpha_txt;
+    std::string alpha_path = "../new_calc_lim_out/alpha_val_comb_" + mass_point + ".txt";
+    get_alpha_txt.open(alpha_path.c_str());
+    std::string alpha_filein;
+    get_alpha_txt >> alpha_filein;
+    alpha = std::stod(alpha_filein);
     Int_t steps = 10000;
-    TH1F* sig_dist = new TH1F("hsig", "Distribution of fitted signal parameter", 50, -.002, .006);
+    TH1F* sig_dist = new TH1F("hsig", "Distribution of fitted signal parameter", 50, 0, 0);
     Double_t me_ratio = 0;
 
         mean_sig = 0;
@@ -187,40 +252,27 @@ void find_limit_with_loop3_verify(std::string mass_point = "50"){
             TRandom3* rnd = new TRandom3(0);
             Int_t randbin;
             
-            TH1F* gen_bg = new TH1F("gen_bg", "Generated background", 100, -.6, .4);
-            TH1F* gen_sig = new TH1F("gen_sig", "Generated signal", 100, -.6, .4);
-
-            for(int i = 0; i < 100; i++){
-                randbin = rnd->Poisson(alpha * bdt_hists[10]->GetBinContent(i+1));
-                    for(int k = 0; k < randbin; k++){
-                        gen_sig->Fill(0.01*i - 0.599);
-                    }
-            }
-
-            for(int i = 0; i < sizeof(bdt_hists) / sizeof(TH1F*) - 1; i++){
-                //if(bdt_hists[i]->Integral()>0) gen_bg->FillRandom(bdt_hists[i], bdt_hists[i]->Integral());
-                for(int j = 0; j < 100; j++){
-                    randbin = rnd->Poisson(bdt_hists[i]->GetBinContent(j+1));
-                    for(int k = 0; k < randbin; k++){
-                        gen_bg->Fill(0.01*j - 0.599);
-                    }
-                }
+            TH1F* gen_bg = new TH1F("gen_bg", "Generated background", bg_bin_vec.size(), 0, bg_bin_vec.size());
+            TH1F* gen_sig = new TH1F("gen_sig", "Generated signal", sig_bin_vec.size(), 0, sig_bin_vec.size());
+            for(int i = 0; i < sig_bin_vec.size(); i++){
+                gen_sig->SetBinContent(i+1, rnd->Poisson(alpha * sig_bin_vec.at(i)));
+                gen_bg->SetBinContent(i+1, rnd->Poisson(bg_bin_vec.at(i)));
             }
             
 
             //*bg_template = *bg_template * (1/bg_template->Integral());
             //*sig_template = *sig_template * (1/sig_template->Integral());
 
-            TH1F* data = new TH1F("data", "Combined generated data", 100, -0.6, 0.4);
+            TH1F* data = new TH1F("data", "Combined generated data", bg_bin_vec.size(), 0, bg_bin_vec.size());
             data->Add(gen_bg, gen_sig);
 
 
-            auto func = new TF1("fitting_func",&fit_func,-0.6,0.4,1);
+            auto func = new TF1("fitting_func",&fit_sum_func, 0, bg_bin_vec.size(),1);
 
             func->SetParNames("Signal");
 
             //hist_to_fit.at(0)->GetListOfFunctions()->ls();
-            auto fitresult = data->Fit(func, "SQ");
+            auto fitresult = data->Fit(func, "SQL");
             mean_sig += func->GetParameter(0) / steps;
             mean_sig_err += func->GetParError(0) / steps;
             sig_dist->Fill(func->GetParameter(0));
