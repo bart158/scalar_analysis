@@ -24,7 +24,7 @@ double fit_func(double *x, double *par){
     return bg_temp(x[0]) + par[0] * sig_temp(x[0]);
 }
 
-void get_traintree_entries(TTree *bdt_tree, TH1F* bdt_hists[], int beamsetting){
+void get_testtree_entries(TTree *bdt_tree, TH1F* bdt_hists[], int beamsetting){
     Double_t weights[5][4] = {
     {0.585, 0.035, 0.315, 0.065},
     {0.035, 0.585, 0.065, 0.315},
@@ -65,10 +65,10 @@ void get_traintree_entries(TTree *bdt_tree, TH1F* bdt_hists[], int beamsetting){
         bdt_tree->GetEntry(entry);
         Int_t indexproc = std::round(Iproc);
         if (indexproc >= 0){
-            bdt_hists[indexproc]->Fill(BDTresp, Lexp[beamsetting][(int)std::round(Ipol)]/Lgen);
+            bdt_hists[indexproc]->Fill(BDTresp, 2*Lexp[beamsetting][(int)std::round(Ipol)]/Lgen);
         }
         else{
-            bdt_hists[10]->Fill(BDTresp, Lexp[beamsetting][(int)std::round(Ipol)]/Lgen);
+            bdt_hists[10]->Fill(BDTresp, 2*Lexp[beamsetting][(int)std::round(Ipol)]/Lgen);
         }
         //bdt_dist->Fill(BDTresp);
     }
@@ -99,13 +99,13 @@ void calc_lim_v2_with_bmst(std::string mass_point = "80", int bmst = 4){
     path0 += mass_point;
     TString rfile0 = path0;
     rfile0 += "_eLpR/train_bdt_qqll.root";
-    path0 += "_eLpR/train_bdt_qqll.root?#dataset/TrainTree";
+    path0 += "_eLpR/train_bdt_qqll.root?#dataset/TestTree";
     char* char_path0 = new char[path0.length() + 1];
     strcpy(char_path0, path0.c_str());
 
     std::string path1 = "../training_outcome_";
     path1 += mass_point;
-    path1 += "_eRpL/train_bdt_qqll.root?#dataset/TrainTree";
+    path1 += "_eRpL/train_bdt_qqll.root?#dataset/TestTree";
     TString rfile1 = path1;
     rfile1 += "_eRpL/train_bdt_qqll.root";
     char* char_path1 = new char[path1.length() + 1];
@@ -115,7 +115,7 @@ void calc_lim_v2_with_bmst(std::string mass_point = "80", int bmst = 4){
     path2 += mass_point;
     TString rfile2 = path2;
     rfile2 += "_eLpL/train_bdt_qqll.root";
-    path2 += "_eLpL/train_bdt_qqll.root?#dataset/TrainTree";
+    path2 += "_eLpL/train_bdt_qqll.root?#dataset/TestTree";
     char* char_path2 = new char[path2.length() + 1];
     strcpy(char_path2, path2.c_str());
 
@@ -123,7 +123,7 @@ void calc_lim_v2_with_bmst(std::string mass_point = "80", int bmst = 4){
     path3 += mass_point;
     TString rfile3 = path3;
     rfile3 += "_eRpR/train_bdt_qqll.root";
-    path3 += "_eRpR/train_bdt_qqll.root?#dataset/TrainTree";
+    path3 += "_eRpR/train_bdt_qqll.root?#dataset/TestTree";
     char* char_path3 = new char[path3.length() + 1];
     strcpy(char_path3, path3.c_str());
 
@@ -131,7 +131,7 @@ void calc_lim_v2_with_bmst(std::string mass_point = "80", int bmst = 4){
     path4 += mass_point;
     TString rfile4 = path4;
     rfile4 += "_unpol/train_bdt_qqll.root";
-    path4 += "_unpol/train_bdt_qqll.root?#dataset/TrainTree";
+    path4 += "_unpol/train_bdt_qqll.root?#dataset/TestTree";
     char* char_path4 = new char[path4.length() + 1];
     strcpy(char_path4, path4.c_str());
 
@@ -145,11 +145,11 @@ void calc_lim_v2_with_bmst(std::string mass_point = "80", int bmst = 4){
     TFile* fileLL = new TFile(rfile2);
     TFile* fileRR = new TFile(rfile3);
     TFile* fileunpol = new TFile(rfile4);
-    TTree* treeLR = (TTree*)fileLR->Get("dataset/TrainTree");
-    TTree* treeRL = (TTree*)fileRL->Get("dataset/TrainTree");
-    TTree* treeLL = (TTree*)fileLL->Get("dataset/TrainTree");
-    TTree* treeRR = (TTree*)fileRR->Get("dataset/TrainTree");
-    TTree* treeunpol = (TTree*)fileunpol->Get("dataset/TrainTree");
+    TTree* treeLR = (TTree*)fileLR->Get("dataset/TestTree");
+    TTree* treeRL = (TTree*)fileRL->Get("dataset/TestTree");
+    TTree* treeLL = (TTree*)fileLL->Get("dataset/TestTree");
+    TTree* treeRR = (TTree*)fileRR->Get("dataset/TestTree");
+    TTree* treeunpol = (TTree*)fileunpol->Get("dataset/TestTree");
 
 
 
@@ -163,25 +163,25 @@ void calc_lim_v2_with_bmst(std::string mass_point = "80", int bmst = 4){
     }
 
     if(bmst == 0){
-        get_traintree_entries(treeLR, bdt_hists, bmst);
+        get_testtree_entries(treeLR, bdt_hists, bmst);
     }
     else if(bmst == 1){
-        get_traintree_entries(treeRL, bdt_hists, bmst);
+        get_testtree_entries(treeRL, bdt_hists, bmst);
     }
     else if (bmst == 2) {
-        get_traintree_entries(treeLL, bdt_hists, bmst);
+        get_testtree_entries(treeLL, bdt_hists, bmst);
     }
     else if (bmst == 3) {
-        get_traintree_entries(treeRR, bdt_hists, bmst);
+        get_testtree_entries(treeRR, bdt_hists, bmst);
     }
     else if (bmst == 4){
-        get_traintree_entries(treeunpol, bdt_hists, bmst);
+        get_testtree_entries(treeunpol, bdt_hists, bmst);
     }
     else if(bmst == 5){
-        get_traintree_entries(treeLR, bdt_hists, 0);
-        get_traintree_entries(treeRL, bdt_hists, 1);
-        get_traintree_entries(treeLL, bdt_hists, 2);
-        get_traintree_entries(treeRR, bdt_hists, 3);
+        get_testtree_entries(treeLR, bdt_hists, 0);
+        get_testtree_entries(treeRL, bdt_hists, 1);
+        get_testtree_entries(treeLL, bdt_hists, 2);
+        get_testtree_entries(treeRR, bdt_hists, 3);
     }
 
     for(int i = 0; i < sizeof(bdt_hists) / sizeof(TH1F*) - 1; i++){

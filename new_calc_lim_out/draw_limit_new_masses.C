@@ -46,7 +46,7 @@ void draw_limit_new_masses(){
         file.close();
     }
     TMultiGraph *mg = new TMultiGraph();
-    mg->SetTitle("Alpha 95\% CL;mass [GeV];alpha val.q");
+    mg->SetTitle("Alpha 95\% CL;mass [GeV];alpha val");
     TGraph *g = new TGraph(12,masses,alpha_val_pol[4]);
     TGraph *g0 = new TGraph(12,masses,alpha_val_pol[0]);
     TGraph *g1 = new TGraph(12,masses,alpha_val_pol[1]);
